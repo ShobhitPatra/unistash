@@ -1,0 +1,53 @@
+{
+  "name": "@unistash/jotai",
+  "version": "0.1.0",
+  "description": "Jotai adapter for Unistash - Write once. Stash anywhere.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "unistash",
+    "jotai",
+    "state-management",
+    "react",
+    "adapter",
+    "atoms"
+  ],
+  "author": "ShobhitPatra<shobhitpatra.dev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShobhitPatra/unistash",
+    "directory": "packages/jotai"
+  },
+  "homepage": "https://unistash.dev",
+  "peerDependencies": {
+    "jotai": "^2.0.0",
+    "react": "^18.0.0"
+  },
+  "dependencies": {
+    "@unistash/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "jotai": "^2.0.0",
+    "react": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "name": "unistash-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Unistash - Write once. Stash anywhere.",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter='./packages/*' && changeset publish"
+  },
+  "keywords": [
+    "unistash",
+    "state-management",
+    "react",
+    "monorepo",
+    "zustand",
+    "jotai",
+    "redux",
+    "universal"
+  ],
+  "author": "Shobhit Patra shohitpatra.dev@gmail.com",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShobhitPatra/unistash"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "turbo": "^2.5.8"
+  }
+}

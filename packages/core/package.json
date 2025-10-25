@@ -1,0 +1,43 @@
+{
+  "name": "@unistash/core",
+  "version": "0.1.0",
+  "description": "Core types and interfaces for Unistash - Write once. Stash anywhere.",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc ",
+    "clean": "rm -rf dist",
+    "dev": "tsc --watch",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "unistash",
+    "state-management",
+    "react",
+    "typescript",
+    "universal",
+    "adapter"
+  ],
+  "author": "Shobhit Patra<shobhitpatra.dev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShobhitPatra/unistash",
+    "directory": "packages/core"
+  },
+  "homepage": "https://unistash.dev",
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
