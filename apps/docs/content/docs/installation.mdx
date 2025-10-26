@@ -7,7 +7,7 @@ description: Get started with Unistash
 
 ## Choose Your Adapter
 
-Unistash supports multiple state management libraries:
+Unistash supports multiple state management libraries. Choose the one that fits your needs:
 
 ### Zustand
 
@@ -15,19 +15,142 @@ Unistash supports multiple state management libraries:
 npm install @unistash/zustand zustand
 ```
 
+**Best for:**
+
+- Simplicity and speed
+- Small bundle size (~1KB)
+- No Provider wrapper needed
+- Quick prototypes and small apps
+
+**Trade-offs:**
+
+- Fewer debugging tools
+- Smaller ecosystem
+
+[Learn more about Zustand adapter →](/docs/adapters/zustand)
+
 ### Jotai
 
 ```bash
 npm install @unistash/jotai jotai
 ```
 
+**Best for:**
+
+- Atomic state management
+- Fine-grained updates
+- React 18 features (Suspense, transitions)
+- Derived state patterns
+
+**Trade-offs:**
+
+- Requires Provider wrapper
+- Slightly more complex mental model
+
+[Learn more about Jotai adapter →](/docs/adapters/jotai)
+
+### Redux Toolkit
+
+```bash
+npm install @unistash/redux @reduxjs/toolkit react-redux
+```
+
+**Best for:**
+
+- Enterprise applications
+- Redux DevTools integration
+- Large teams familiar with Redux
+- Time-travel debugging
+- Complex state logic
+
+**Trade-offs:**
+
+- Larger bundle size (~8KB)
+- Requires Provider wrapper
+- More boilerplate (even with RTK)
+
+[Learn more about Redux adapter →](/docs/adapters/redux)
+
 ### Coming Soon
 
-- Redux Toolkit
-- Recoil
-- Valtio
-- MobX
+- **Valtio** - Proxy-based state (Poimandres)
+- **Recoil** - Facebook's state library
+- **MobX** - Observable state management
+- **XState** - State machines
 
-## TypeScript
+## Requirements
 
-Unistash is written in TypeScript and provides excellent type inference out of the box.
+- **React**: 18.0 or higher
+- **TypeScript**: 5.0 or higher (recommended)
+- **Node.js**: 18.0 or higher
+
+## Quick Comparison
+
+| Adapter | Bundle Size | Provider | DevTools     | Best For                 |
+| ------- | ----------- | -------- | ------------ | ------------------------ |
+| Zustand | 🟢 ~1KB     | ❌ No    | ⚠️ Extension | Small apps, prototypes   |
+| Jotai   | 🟢 ~3KB     | ✅ Yes   | ⚠️ Extension | Atomic updates, React 18 |
+| Redux   | 🟡 ~8KB     | ✅ Yes   | ✅ Built-in  | Enterprise, debugging    |
+
+## TypeScript Support
+
+Unistash is written in TypeScript and provides excellent type inference out of the box:
+
+```typescript
+const useStore = createStore({
+  state: { count: 0 }, // Type inferred as number
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+    // state is fully typed!
+  },
+  computed: {
+    doubled: (state) => state.count * 2,
+    // Return type inferred automatically
+  },
+});
+
+// In component - full autocomplete!
+const { count, doubled, actions } = useStore();
+//     ^typed   ^typed   ^typed
+```
+
+No additional setup needed!
+
+## Switching Adapters
+
+One of Unistash's superpowers is switching adapters with minimal changes:
+
+```typescript
+// Step 1: Change the import
+// import { createStore } from '@unistash/zustand';
+import { createStore } from '@unistash/redux';
+
+// Step 2: Your code stays the same!
+const useStore = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+  },
+});
+
+// Step 3: Add Provider if needed (Redux/Jotai)
+import { UnistashProvider } from '@unistash/redux';
+
+function App() {
+  return (
+
+
+
+  );
+}
+```
+
+That's it! Your components don't need to change at all.
+
+## Next Steps
+
+- [API Reference](/docs/api-reference) - Complete API documentation
+- [Zustand Adapter](/docs/adapters/zustand) - Learn about Zustand
+- [Jotai Adapter](/docs/adapters/jotai) - Learn about Jotai
+- [Redux Adapter](/docs/adapters/redux) - Learn about Redux Toolkit
+- [Migration Guide](/docs/migration) - Migrating existing apps

@@ -1,9 +1,11 @@
 import { Hero } from "@/components/hero/Hero";
 import { HeroExampleCodeBlock } from "@/components/HeroExampleCodeBlock";
+import { Github, X } from "lucide-react";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col justify-center text-center flex-1  md:gap-32 dark:bg-linear-to-t dark:from-black  dark:via-slate-950 dark:to-black bg-linear-to-t from-gray-300 via-indigo-200 to-white ">
+    <div className="flex flex-col justify-center text-center flex-1  md:gap-32 gap-16 dark:bg-linear-to-t dark:from-black  dark:via-slate-950 dark:to-black bg-linear-to-t from-gray-300 via-indigo-200 to-white p-2">
       <Hero />
       <HeroExampleCodeBlock />
       <section className="text-center md:px-64 ">
@@ -51,7 +53,25 @@ export default function HomePage() {
           </li>
         </ul>
       </section>
-      <footer>footer</footer>
+      <div>
+        <Link href={"/docs/installation"}>
+          <button className="dark:bg-white dark:text-black py-2 px-4 rounded-md hover:dark:bg-gray-300 bg-black text-white hover:bg-gray-800">
+            Get Started
+          </button>
+        </Link>
+      </div>
+      <footer>
+        <div className="h-[0.5px] dark:bg-gray-600 bg-gray-700 md:mx-32 md:mb-16"></div>
+        <div className="flex justify-center items-center gap-5 mb-2">
+          <p>by Shobhit Patra</p>
+          <Link href={"https://github.com/ShobhitPatra"}>
+            <Github size={18} />
+          </Link>
+          <Link href={"https://x.com/shobhit_tw"}>
+            <X size={20} />
+          </Link>
+        </div>
+      </footer>
     </div>
   );
 }

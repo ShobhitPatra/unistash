@@ -5,9 +5,9 @@ description: Write once. Stash anywhere.
 
 # Unistash
 
-**Universal state management abstraction for React**
+**Write once. Stash anywhere.**
 
-Write your state management code once. Run it with any library.
+Universal state management abstraction for React. Write your state management code once, run it with any library.
 
 ## Quick Start
 
@@ -17,24 +17,154 @@ npm install @unistash/zustand
 ```
 
 ```tsx
-import { createStore } from "@unistash/zustand";
+import { createStore } from '@unistash/zustand';
 
 const useCounterStore = createStore({
   state: { count: 0 },
   actions: {
     increment: (state) => ({ count: state.count + 1 }),
   },
+  computed: {
+    doubled: (state) => state.count * 2,
+  }
 });
 
 function Counter() {
-  const { count, actions } = useCounterStore();
-  return <button onClick={actions.increment}>{count}</button>;
+  const { count, doubled, actions } = useCounterStore();
+  return (
+
+      Count: {count} (Doubled: {doubled})
+      +
+
+  );
 }
 ```
 
+## Available Adapters
+
+- **[@unistash/zustand](/docs/adapters/zustand)** - Zustand adapter
+
+  - Small bundle size
+  - No provider needed
+  - Simple and fast
+
+- **[@unistash/jotai](/docs/adapters/jotai)** - Jotai adapter
+
+  - Atomic state management
+  - React 18 optimized
+  - Fine-grained updates
+
+- **[@unistash/redux](/docs/adapters/redux)** - Redux Toolkit adapter
+
+  - Enterprise-ready
+  - Redux DevTools
+  - Rich middleware ecosystem
+
+- 🚧 **@unistash/valtio** - Coming soon
+- 🚧 **@unistash/recoil** - Coming soon
+- 🚧 **@unistash/mobx** - Coming soon
+
 ## Why Unistash?
 
-- 🔄 **Switch libraries instantly** - Change one import, keep your code
-- 📚 **Learn once, use everywhere** - One API for all state libraries
-- 🚀 **Zero vendor lock-in** - Never rewrite state logic again
-- 🎯 **Perfect for OSS** - Contributors don't need to learn every library
+### 🔄 Switch Libraries Instantly
+
+Change one import, keep your code. No rewrites needed.
+
+```typescript
+// Before
+import { createStore } from "@unistash/zustand";
+
+// After - just change the import!
+import { createStore } from "@unistash/redux";
+// Everything else stays the same
+```
+
+### Learn Once, Use Everywhere
+
+One API for all state libraries. Master Unistash, use any adapter.
+
+### Zero Vendor Lock-in
+
+Never get stuck with a single state library again. Your code is portable.
+
+### Perfect for Open Source
+
+Contributors can work with any project using Unistash, regardless of the underlying library.
+
+### Type-Safe
+
+Full TypeScript support with excellent type inference across all adapters.
+
+## How It Works
+
+Unistash provides a universal API that adapts to different state management libraries:
+
+```
+Your Code (Unistash API)
+         ↓
+    Adapter Layer
+    ↙    ↓    ↘
+Zustand Jotai Redux
+```
+
+You write code once using Unistash's API. The adapter translates it to work with your chosen library under the hood.
+
+## Philosophy
+
+State management libraries are tools, not religions. Different projects have different needs:
+
+- **Startups** might prefer Zustand for speed
+- **Enterprises** might need Redux for debugging
+- **Teams** might want Jotai for React 18 features
+
+Unistash lets you choose the right tool without rewriting your application.
+
+## Comparison
+
+| Feature        | Unistash + Zustand | Unistash + Redux | Pure Zustand | Pure Redux |
+| -------------- | ------------------ | ---------------- | ------------ | ---------- |
+| Bundle size    | Small              | Medium           | Small        | Medium     |
+| Learning curve | Easy               | Easy             | Easy         | Hard       |
+| Vendor lock-in | None               | None             | High         | High       |
+| DevTools       | Optional           | Built-in         | Optional     | Built-in   |
+| Portability    | ✅ High            | ✅ High          | ❌ Low       | ❌ Low     |
+
+## Next Steps
+
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+  <a
+    href="/docs/installation"
+    className="p-4 border rounded-lg hover:border-blue-500"
+  >
+    <h3 className="font-semibold">Installation →</h3>
+    <p className="text-sm text-gray-600">Get started with your first adapter</p>
+  </a>
+
+{" "}
+
+<a
+  href="/docs/api-reference"
+  className="p-4 border rounded-lg hover:border-blue-500"
+>
+  <h3 className="font-semibold">API Reference →</h3>
+  <p className="text-sm text-gray-600">Complete API documentation</p>
+</a>
+
+{" "}
+
+<a
+  href="/docs/adapters/zustand"
+  className="p-4 border rounded-lg hover:border-blue-500"
+>
+  <h3 className="font-semibold">Zustand Adapter →</h3>
+  <p className="text-sm text-gray-600">Simple and lightweight</p>
+</a>
+
+  <a
+    href="/docs/adapters/redux"
+    className="p-4 border rounded-lg hover:border-blue-500"
+  >
+    <h3 className="font-semibold">Redux Adapter →</h3>
+    <p className="text-sm text-gray-600">Enterprise-ready solution</p>
+  </a>
+</div>

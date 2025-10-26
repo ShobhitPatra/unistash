@@ -14,7 +14,7 @@ export function baseOptions(): BaseLayoutProps {
       },
       {
         text: "Examples",
-        url: "/docs/examples/zustand",
+        url: "https://github.com/ShobhitPatra/unistash/tree/master/examples",
       },
     ],
   };

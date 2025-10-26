@@ -5,7 +5,6 @@ import ShikiHighlighter from "react-shiki";
 
 const examples = {
   zustand: {
-    install: "npm install @unistash/zustand zustand",
     code: `import { createStore } from '@unistash/zustand';
 
 const useCounterStore = createStore({
@@ -32,9 +31,9 @@ function Counter() {
 }`,
   },
   jotai: {
-    install: "npm install @unistash/jotai jotai",
-    code: `import { createStore } from '@unistash/jotai';
-import { Provider } from 'jotai';
+    code: `
+    import { createStore,UnistashProvider } from '@unistash/jotai';
+
 
 const useCounterStore = createStore({
   state: { count: 0 },
@@ -62,15 +61,16 @@ function Counter() {
 // Jotai requires Provider
 function App() {
   return (
-    <Provider>
+    <UnistashProvider>
       <Counter />
-    </Provider>
+    </UnistashProvider>
   );
 }`,
   },
   redux: {
-    install: "npm install @unistash/redux (coming soon)",
-    code: `import { createStore } from '@unistash/redux';
+    code: ` import { createStore, UnistashProvider  } from '@unistash/redux';
+
+
 
 const useCounterStore = createStore({
   state: { count: 0 },
@@ -83,7 +83,26 @@ const useCounterStore = createStore({
   }
 });
 
-// Same code, different adapter! 🎉`,
+function Counter() {
+  const { count, doubled, actions } = useCounterStore();
+  
+  return (
+    <div>
+      <p>Count: {count} (Doubled: {doubled})</p>
+      <button onClick={actions.increment}>+</button>
+      <button onClick={actions.decrement}>-</button>
+    </div>
+  );
+}
+
+// Redux requires Provider
+function App() {
+  return (
+    <UnistashProvider>
+      <Counter />
+    </UnistashProvider>
+  );
+}`,
   },
   valtio: {
     install: "npm install @unistash/valtio (coming soon)",
@@ -100,7 +119,7 @@ const useCounterStore = createStore({
   }
 });
 
-// Same code, different adapter! 🎉`,
+// Same code, different adapter! `,
   },
 };
 
@@ -108,7 +127,7 @@ export function HeroExampleCodeBlock() {
   return (
     <div className=" md:px-64  ">
       <Tabs
-        items={["Zustand", "Jotai", "Redux", "Recoil", "Valtio"]}
+        items={["Zustand", "Redux", "Jotai", "Recoil", "Valtio"]}
         defaultIndex={0}
         className="dark:bg-black "
       >
@@ -196,7 +215,7 @@ export function HeroExampleCodeBlock() {
         </Tab>
       </Tabs>
 
-      <div className="mt-6 p-6 dark:bg-linear-to-r dark:from-black dark:to-gray-900-50 rounded-lg bg-linear-to-r from-indigo-400 via-indigo-200 to-white ">
+      <div className="mt-6 p-6 dark:bg-linear-to-r dark:from-black dark:via-gray-950 dark:to-gray-900  rounded-lg bg-linear-to-r from-indigo-400 via-indigo-200 to-white ">
         <p className="text-center font-semibold text-gray-900 dark:text-gray-300">
           <strong>Note:</strong> The exact same code works across all adapters!
         </p>

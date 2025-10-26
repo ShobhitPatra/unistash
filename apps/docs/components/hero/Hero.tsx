@@ -5,11 +5,11 @@ import { AnimatedBeamSection } from "./AnimatedBeamSection";
 import ShikiHighlighter from "react-shiki";
 
 const installation_commannds = {
-  zustand: "npm install @unistash/zustand",
-  jotai: "npm install @unistash/jotai",
-  redux: "npm install @unistash/redux",
-  recoil: "npm install @unistash/recoil",
-  valtio: "npm install @unistash/valtio",
+  zustand: "npm install @unistash/zustand zustand",
+  jotai: "npm install @unistash/jotai jotai",
+  redux: "npm install @unistash/redux redux",
+  recoil: "npm install @unistash/recoil recoil",
+  valtio: "npm install @unistash/valtio valtio",
 };
 export const Hero = () => {
   return (
@@ -26,7 +26,7 @@ export const Hero = () => {
           Redux, and more by changing a single import.
         </div>
         <Tabs
-          items={["Zustand", "Jotai", "Redux", "Recoil", "Valtio"]}
+          items={["Zustand", "Redux", "Jotai", "Recoil", "Valtio"]}
           defaultIndex={0}
           className="dark:bg-black "
         >
@@ -46,22 +46,6 @@ export const Hero = () => {
               {installation_commannds.zustand}
             </ShikiHighlighter>
           </Tab>
-          <Tab value="Jotai" className="rounded-none p-1 dark:bg-black  ">
-            <ShikiHighlighter
-              className="text-xs "
-              showLanguage={false}
-              style={{ textAlign: "left" }}
-              language={"bash"}
-              theme={{
-                light: "everforest-light",
-                dark: "github-dark",
-                dim: "github-dark-dimmed",
-              }}
-              defaultColor="dark"
-            >
-              {installation_commannds.jotai}
-            </ShikiHighlighter>
-          </Tab>
           <Tab value="Redux" className="rounded-none p-1 dark:bg-black  ">
             <ShikiHighlighter
               className="text-xs "
@@ -76,6 +60,22 @@ export const Hero = () => {
               defaultColor="dark"
             >
               {installation_commannds.redux}
+            </ShikiHighlighter>
+          </Tab>
+          <Tab value="Jotai" className="rounded-none p-1 dark:bg-black  ">
+            <ShikiHighlighter
+              className="text-xs "
+              showLanguage={false}
+              style={{ textAlign: "left" }}
+              language={"bash"}
+              theme={{
+                light: "everforest-light",
+                dark: "github-dark",
+                dim: "github-dark-dimmed",
+              }}
+              defaultColor="dark"
+            >
+              {installation_commannds.jotai}
             </ShikiHighlighter>
           </Tab>
           <Tab value="Recoil" className="rounded-none p-1 dark:bg-black  ">
