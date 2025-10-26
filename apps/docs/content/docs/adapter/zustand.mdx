@@ -1,0 +1,36 @@
+---
+title: Zustand Adapter
+description: Using Unistash with Zustand
+---
+
+# Zustand Adapter
+
+The Zustand adapter provides Unistash functionality using [Zustand](https://github.com/pmndrs/zustand) under the hood.
+
+## Installation
+
+```bash
+npm install @unistash/zustand zustand
+```
+
+## Features
+
+- ✅ No provider needed
+- ✅ Works outside React components
+- ✅ Excellent performance
+- ✅ Small bundle size
+
+## Usage
+
+```typescript
+import { createStore } from "@unistash/zustand";
+
+const useStore = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+  },
+});
+```
+
+No provider wrapper needed! Just use the hook directly.

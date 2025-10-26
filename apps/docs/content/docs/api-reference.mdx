@@ -1,0 +1,61 @@
+---
+title: API Reference
+description: Complete API documentation
+---
+
+# API Reference
+
+## createStore
+
+Creates a Unistash store with state, actions, and computed values.
+
+### Signature
+
+```typescript
+function createStore<TState>(config: StoreConfig<TState>): StoreHook;
+```
+
+### Parameters
+
+#### config.state
+
+- **Type:** `TState`
+- **Required:** Yes
+- Initial state object
+
+#### config.actions
+
+- **Type:** `Record<string, (state: TState, ...args: any[]) => Partial<TState>>`
+- **Required:** No
+- Action functions that update state
+
+#### config.computed
+
+- **Type:** `Record<string, (state: TState) => any>`
+- **Required:** No
+- Computed/derived values from state
+
+### Returns
+
+A React hook that returns the current state, computed values, and actions.
+
+### Example
+
+```typescript
+const useStore = createStore({
+  state: {
+    count: 0,
+    name: "Counter",
+  },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+    setName: (state, name: string) => ({ name }),
+  },
+  computed: {
+    doubled: (state) => state.count * 2,
+  },
+});
+
+// In component
+const { count, doubled, name, actions } = useStore();
+```

@@ -1,0 +1,45 @@
+---
+title: Jotai Adapter
+description: Using Unistash with Jotai
+---
+
+# Jotai Adapter
+
+The Jotai adapter provides Unistash functionality using [Jotai](https://jotai.org) under the hood.
+
+## Installation
+
+```bash
+npm install @unistash/jotai jotai
+```
+
+## Features
+
+- ✅ Atom-based state
+- ✅ Excellent for atomic updates
+- ✅ Small bundle size
+- ⚠️ Requires Provider wrapper
+
+## Usage
+
+```typescript
+import { createStore } from "@unistash/jotai";
+import { Provider } from "jotai";
+
+const useStore = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+  },
+});
+
+function App() {
+  return (
+    <Provider>
+      <Counter />
+    </Provider>
+  );
+}
+```
+
+**Note:** Jotai requires wrapping your app with `<Provider>`.

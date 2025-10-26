@@ -1,0 +1,40 @@
+---
+title: Welcome to Unistash
+description: Write once. Stash anywhere.
+---
+
+# Unistash
+
+**Universal state management abstraction for React**
+
+Write your state management code once. Run it with any library.
+
+## Quick Start
+
+```bash
+npm install @unistash/zustand
+# or @unistash/jotai, @unistash/redux, etc.
+```
+
+```tsx
+import { createStore } from "@unistash/zustand";
+
+const useCounterStore = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+  },
+});
+
+function Counter() {
+  const { count, actions } = useCounterStore();
+  return <button onClick={actions.increment}>{count}</button>;
+}
+```
+
+## Why Unistash?
+
+- 🔄 **Switch libraries instantly** - Change one import, keep your code
+- 📚 **Learn once, use everywhere** - One API for all state libraries
+- 🚀 **Zero vendor lock-in** - Never rewrite state logic again
+- 🎯 **Perfect for OSS** - Contributors don't need to learn every library
