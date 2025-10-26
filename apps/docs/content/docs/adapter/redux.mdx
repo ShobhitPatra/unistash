@@ -1,0 +1,449 @@
+---
+title: Redux Adapter
+description: Using Unistash with Redux Toolkit
+---
+
+# Redux Toolkit Adapter
+
+The Redux adapter provides Unistash functionality using [Redux Toolkit](https://redux-toolkit.js.org/) under the hood.
+
+## Installation
+
+```bash
+npm install @unistash/redux @reduxjs/toolkit react-redux
+```
+
+## Features
+
+- Redux Toolkit (modern Redux)
+- Built-in Redux DevTools support
+- Excellent for large applications
+- Time-travel debugging
+- Requires Provider wrapper
+
+## Usage
+
+```typescript
+import { createStore, UnistashProvider } from '@unistash/redux';
+
+const useCounterStore = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+    decrement: (state) => ({ count: state.count - 1 }),
+  },
+  computed: {
+    doubled: (state) => state.count * 2,
+  }
+});
+
+function Counter() {
+  const { count, doubled, actions } = useCounterStore();
+
+  return (
+
+      Count: {count} (Doubled: {doubled})
+      +
+      -
+
+  );
+}
+
+// IMPORTANT: Redux requires Provider wrapper
+function App() {
+  return (
+
+
+
+  );
+}
+```
+
+## Provider Requirement
+
+**Redux requires wrapping your app with `<UnistashProvider>`:**
+
+```typescript
+import { UnistashProvider } from '@unistash/redux';
+
+function App() {
+  return (
+
+
+
+  );
+}
+```
+
+The `store` prop should be `useCounterStore._store` - the underlying Redux store.
+
+## Redux DevTools
+
+Redux DevTools are automatically enabled with Redux Toolkit! Open the Redux DevTools extension in your browser to:
+
+- Inspect state changes
+- Time-travel debug
+- Replay actions
+- Export/import state
+- Visualize action flow
+
+## Advanced Usage
+
+### Access Redux Store Directly
+
+```typescript
+const useStore = createStore({
+  /* config */
+});
+
+// Access the underlying Redux store
+const reduxStore = useStore._store;
+
+// Access the Redux slice
+const reduxSlice = useStore._slice;
+
+// Dispatch custom Redux actions
+reduxStore.dispatch(customAction());
+
+// Subscribe to store changes
+reduxStore.subscribe(() => {
+  console.log("State changed:", reduxStore.getState());
+});
+```
+
+### Middleware
+
+Redux Toolkit includes thunk middleware by default for async actions:
+
+```typescript
+// Async actions work out of the box
+const useUserStore = createStore({
+  state: {
+    user: null,
+    loading: false,
+  },
+  actions: {
+    fetchUser: async (state, id: string) => {
+      // Async operations work!
+      const user = await fetch(`/api/users/${id}`).then((r) => r.json());
+      return { user, loading: false };
+    },
+    setLoading: (state, loading: boolean) => ({ loading }),
+  },
+});
+```
+
+### setState Not Supported
+
+Unlike Zustand, Redux doesn't support direct `setState()`. Use actions instead (Redux best practice):
+
+```typescript
+//  Not supported
+useStore.setState({ count: 5 });
+
+// Use actions
+actions.setCount(5);
+```
+
+## Why Use Redux with Unistash?
+
+### Advantages
+
+- **Enterprise-ready**: Redux is battle-tested in production at scale
+- **DevTools**: Best-in-class debugging experience
+- **Ecosystem**: Huge ecosystem of middleware and tools
+- **Team familiarity**: Many developers already know Redux
+- **Predictable**: Strict unidirectional data flow
+- **Unistash flexibility**: Keep the option to migrate to Zustand/Jotai later
+
+### When to Choose Redux
+
+Choose Redux if you:
+
+- Have a large application with complex state
+- Need powerful debugging tools
+- Work in a team familiar with Redux
+- Want middleware for logging, analytics, etc.
+- Need time-travel debugging
+
+### When to Choose Something Else
+
+Consider Zustand or Jotai if you:
+
+- Want simpler setup (no Provider needed with Zustand)
+- Prefer smaller bundle size
+- Don't need Redux-specific features
+- Want faster learning curve for new team members
+
+## Comparison
+
+| Feature             | Redux             | Zustand      | Jotai        |
+| ------------------- | ----------------- | ------------ | ------------ |
+| Provider needed     | ✅ Yes            | ❌ No        | ✅ Yes       |
+| DevTools            | ✅ Built-in       | ⚠️ Extension | ⚠️ Extension |
+| Bundle size         | 🟡 ~8KB           | 🟢 ~1KB      | 🟢 ~3KB      |
+| Learning curve      | 🟡 Moderate       | 🟢 Easy      | 🟢 Easy      |
+| Enterprise adoption | 🟢 Very High      | 🟡 Growing   | 🟡 Growing   |
+| Middleware          | ✅ Rich ecosystem | ⚠️ Limited   | ⚠️ Limited   |
+| Time-travel debug   | ✅ Yes            | ❌ No        | ❌ No        |
+
+## Migration from Redux
+
+Already using Redux? Migrating to Unistash is straightforward:
+
+### Before: Plain Redux Toolkit
+
+```typescript
+import { createSlice, configureStore } from '@reduxjs/toolkit';
+import { useSelector, useDispatch } from 'react-redux';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { count: 0 },
+  reducers: {
+    increment: (state) => {
+      state.count += 1
+    },
+    decrement: (state) => {
+      state.count -= 1
+    },
+  },
+});
+
+const store = configureStore({
+  reducer: counterSlice.reducer,
+});
+
+// Usage in component
+function Counter() {
+  const dispatch = useDispatch();
+  const count = useSelector(state => state.count);
+
+  return (
+
+      {count}
+      <button onClick={() => dispatch(counterSlice.actions.increment())}>
+        +
+
+
+  );
+}
+```
+
+### After: Unistash with Redux Adapter
+
+```typescript
+import { createStore } from '@unistash/redux';
+
+const useCounterStore = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+    decrement: (state) => ({ count: state.count - 1 }),
+  },
+});
+
+// Usage in component - much simpler!
+function Counter() {
+  const { count, actions } = useCounterStore();
+
+  return (
+
+      {count}
+      +
+
+  );
+}
+```
+
+### Migration Benefits
+
+- Cleaner, more intuitive API
+- Less boilerplate code
+- Option to switch to Zustand/Jotai later with zero code changes
+- Same Redux power and DevTools under the hood
+- Better TypeScript inference
+
+## Complete Example
+
+```typescript
+import { createStore, UnistashProvider } from '@unistash/redux';
+
+interface Todo {
+  id: string;
+  text: string;
+  completed: boolean;
+}
+
+const useTodoStore = createStore({
+  state: {
+    todos: [] as Todo[],
+    filter: 'all' as 'all' | 'active' | 'completed',
+  },
+  actions: {
+    addTodo: (state, text: string) => ({
+      todos: [
+        ...state.todos,
+        {
+          id: Date.now().toString(),
+          text,
+          completed: false
+        }
+      ],
+    }),
+    toggleTodo: (state, id: string) => ({
+      todos: state.todos.map(t =>
+        t.id === id ? { ...t, completed: !t.completed } : t
+      ),
+    }),
+    deleteTodo: (state, id: string) => ({
+      todos: state.todos.filter(t => t.id !== id),
+    }),
+    setFilter: (state, filter: 'all' | 'active' | 'completed') => ({
+      filter
+    }),
+  },
+  computed: {
+    filteredTodos: (state) => {
+      if (state.filter === 'active') {
+        return state.todos.filter(t => !t.completed);
+      }
+      if (state.filter === 'completed') {
+        return state.todos.filter(t => t.completed);
+      }
+      return state.todos;
+    },
+    activeCount: (state) =>
+      state.todos.filter(t => !t.completed).length,
+    completedCount: (state) =>
+      state.todos.filter(t => t.completed).length,
+  },
+});
+
+function TodoApp() {
+  const {
+    filteredTodos,
+    activeCount,
+    completedCount,
+    filter,
+    actions
+  } = useTodoStore();
+
+  const [input, setInput] = React.useState('');
+
+  return (
+
+      Todo App with Redux
+
+      <input
+        value={input}
+        onChange={e => setInput(e.target.value)}
+        onKeyDown={e => {
+          if (e.key === 'Enter' && input.trim()) {
+            actions.addTodo(input);
+            setInput('');
+          }
+        }}
+        placeholder="What needs to be done?"
+      />
+
+
+        <button
+          onClick={() => actions.setFilter('all')}
+          disabled={filter === 'all'}
+        >
+          All ({activeCount + completedCount})
+
+        <button
+          onClick={() => actions.setFilter('active')}
+          disabled={filter === 'active'}
+        >
+          Active ({activeCount})
+
+        <button
+          onClick={() => actions.setFilter('completed')}
+          disabled={filter === 'completed'}
+        >
+          Completed ({completedCount})
+
+
+
+
+        {filteredTodos.map(todo => (
+
+            <input
+              type="checkbox"
+              checked={todo.completed}
+              onChange={() => actions.toggleTodo(todo.id)}
+            />
+
+              {todo.text}
+
+            <button onClick={() => actions.deleteTodo(todo.id)}>
+              Delete
+
+
+        ))}
+
+
+  );
+}
+
+function App() {
+  return (
+
+
+
+  );
+}
+
+export default App;
+```
+
+## Troubleshooting
+
+### Provider Error
+
+If you see "could not find react-redux context value":
+
+```typescript
+// ❌ Forgot to wrap with Provider
+function App() {
+  return ; // Error!
+}
+
+// ✅ Wrap with UnistashProvider
+function App() {
+  return (
+
+
+
+  );
+}
+```
+
+### DevTools Not Working
+
+Make sure you have the [Redux DevTools Extension](https://github.com/reduxjs/redux-devtools) installed in your browser.
+
+### TypeScript Errors
+
+Ensure you're using TypeScript 5.0+ and have proper type inference:
+
+```typescript
+// TypeScript infers types automatically
+const useStore = createStore({
+  state: { count: 0 }, // inferred as number
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+    // state is typed correctly!
+  },
+});
+```
+
+## Next Steps
+
+- [API Reference](/docs/api-reference) - Complete API documentation
+- [Zustand Adapter](/docs/adapters/zustand) - Compare with Zustand
+- [Jotai Adapter](/docs/adapters/jotai) - Compare with Jotai
+- [Examples](https://github.com/ShobhitPatra/unistash/tree/main/examples/redux-example) - See full examples
