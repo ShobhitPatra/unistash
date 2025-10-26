@@ -9,7 +9,7 @@ export function baseOptions(): BaseLayoutProps {
     githubUrl: "https://github.com/ShobhitPatra/unistash",
     links: [
       {
-        text: "Docs",
+        text: "Documentation",
         url: "/docs",
       },
       {
