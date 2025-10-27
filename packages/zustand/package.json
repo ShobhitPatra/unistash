@@ -35,7 +35,7 @@
     "url": "https://github.com/ShobhitPatra/unistash",
     "directory": "packages/zustand"
   },
-  "homepage": "https://unistash.dev",
+  "homepage": "https://unistash-seven.vercel.app/docs/adapter/zustand",
   "peerDependencies": {
     "zustand": "^4.0.0",
     "react": "^18.0.0"

@@ -32,4 +32,4 @@ function App() {
 
 **Note:** Jotai requires a `<Provider>` wrapper at the root of your app.
 
-See [unistash.dev](https://unistash.dev) for full documentation.
+See [unistash.dev](https://unistash-seven.vercel.app/docs/adapter/jotai) for full documentation.

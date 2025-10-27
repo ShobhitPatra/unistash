@@ -36,7 +36,7 @@
     "url": "https://github.com/ShobhitPatra/unistash",
     "directory": "packages/jotai"
   },
-  "homepage": "https://unistash.dev",
+  "homepage": "https://unistash-seven.vercel.app/docs/adapter/jotai",
   "peerDependencies": {
     "jotai": "^2.0.0",
     "react": "^18.0.0"

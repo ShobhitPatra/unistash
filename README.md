@@ -59,7 +59,7 @@ function Counter() {
 
 ## Documentation
 
-Visit [unistash.dev](https://unistash.dev) for full documentation.
+Visit [unistash.dev](https://unistash-seven.vercel.app/) for full documentation.
 
 ## Monorepo Structure
 

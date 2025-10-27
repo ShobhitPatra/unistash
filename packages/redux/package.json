@@ -37,7 +37,7 @@
     "url": "https://github.com/ShobhitPatra/unistash",
     "directory": "packages/redux"
   },
-  "homepage": "https://unistash.dev",
+  "homepage": "https://unistash-seven.vercel.app/docs/adapter/redux",
   "peerDependencies": {
     "@reduxjs/toolkit": "^2.0.0",
     "react": "^18.0.0",
