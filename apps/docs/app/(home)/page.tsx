@@ -63,6 +63,7 @@ export default function HomePage() {
       <footer>
         <div className="h-[0.5px] dark:bg-gray-600 bg-gray-700 md:mx-32 md:mb-16"></div>
         <div className="flex justify-center items-center gap-5 mb-2">
+          <p>Unisatsh v1.0.0</p>
           <p>by Shobhit Patra</p>
           <Link href={"https://github.com/ShobhitPatra"}>
             <Github size={18} />
