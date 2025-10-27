@@ -16,6 +16,10 @@ export function baseOptions(): BaseLayoutProps {
         text: "Examples",
         url: "https://github.com/ShobhitPatra/unistash/tree/master/examples",
       },
+      {
+        text: "Releases",
+        url: "https://www.npmjs.com/package/@unistash/core",
+      },
     ],
   };
 }
