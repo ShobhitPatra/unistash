@@ -5,11 +5,11 @@ import { AnimatedBeamSection } from "./AnimatedBeamSection";
 import ShikiHighlighter from "react-shiki";
 
 const installation_commannds = {
-  zustand: "npm install @unistash/zustand zustand",
-  jotai: "npm install @unistash/jotai jotai",
-  redux: "npm install @unistash/redux redux",
-  recoil: "npm install @unistash/recoil recoil",
-  valtio: "npm install @unistash/valtio valtio",
+  zustand: "npm install @unistash/zustand ",
+  jotai: "npm install @unistash/jotai ",
+  redux: "npm install @unistash/redux ",
+  recoil: "npm install @unistash/recoil ",
+  valtio: "npm install @unistash/valtio ",
 };
 export const Hero = () => {
   return (
