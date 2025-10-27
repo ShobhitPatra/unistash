@@ -53,7 +53,7 @@ function Counter() {
 
 - ✅ `@unistash/zustand` - Zustand adapter
 - ✅ `@unistash/jotai` - Jotai adapter
-- 🚧 `@unistash/redux` - Coming soon
+- ✅`@unistash/redux` - Coming soon
 - 🚧 `@unistash/recoil` - Coming soon
 - 🚧 `@unistash/valtio` - Coming soon
 
