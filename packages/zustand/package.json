@@ -1,6 +1,9 @@
 {
   "name": "@unistash/zustand",
   "version": "1.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "description": "Zustand adapter for Unistash - Write once. Stash anywhere.",
   "main": "dist/index.js",
   "module": "dist/index.js",
