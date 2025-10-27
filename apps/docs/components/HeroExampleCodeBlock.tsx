@@ -31,9 +31,7 @@ function Counter() {
 }`,
   },
   jotai: {
-    code: `
-    import { createStore,UnistashProvider } from '@unistash/jotai';
-
+    code: `import { createStore,UnistashProvider } from '@unistash/jotai';
 
 const useCounterStore = createStore({
   state: { count: 0 },
@@ -68,9 +66,7 @@ function App() {
 }`,
   },
   redux: {
-    code: ` import { createStore, UnistashProvider  } from '@unistash/redux';
-
-
+    code: `import { createStore, UnistashProvider  } from '@unistash/redux';
 
 const useCounterStore = createStore({
   state: { count: 0 },
