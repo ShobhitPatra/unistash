@@ -1,6 +1,6 @@
 {
   "name": "@unistash/core",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Core types and interfaces for Unistash - Write once. Stash anywhere.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
