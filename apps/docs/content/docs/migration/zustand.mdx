@@ -1,0 +1,445 @@
+---
+title: Migrating from Zustand
+description: Step-by-step guide to migrate your existing Zustand app to Unistash
+---
+
+# Migrating from Zustand to Unistash
+
+This guide will help you migrate your existing Zustand application to Unistash while keeping the Zustand adapter underneath.
+
+## Why Migrate?
+
+- ✅ **Flexibility**: Switch to Redux/Jotai later with minimal changes
+- ✅ **Consistency**: Standardized API across all your projects
+- ✅ **Future-proof**: No vendor lock-in
+- ✅ **Same performance**: Uses Zustand under the hood
+
+## Quick Overview
+
+| Aspect          | Difficulty | Time Estimate |
+| --------------- | ---------- | ------------- |
+| Simple stores   | 🟢 Easy    | 5-10 minutes  |
+| Complex stores  | 🟡 Medium  | 30-60 minutes |
+| With middleware | 🟡 Medium  | Variable      |
+
+## Step-by-Step Migration
+
+### Step 1: Install Unistash
+
+```bash
+npm install @unistash/zustand
+# Zustand is already installed as peer dependency
+```
+
+### Step 2: Basic Store Migration
+
+#### Before (Zustand)
+
+```typescript
+import { create } from "zustand";
+
+interface CounterState {
+  count: number;
+  increment: () => void;
+  decrement: () => void;
+  reset: () => void;
+}
+
+const useCounterStore = create<CounterState>((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+  decrement: () => set((state) => ({ count: state.count - 1 })),
+  reset: () => set({ count: 0 }),
+}));
+```
+
+#### After (Unistash)
+
+```typescript
+import { createStore } from "@unistash/zustand";
+
+const useCounterStore = createStore({
+  state: {
+    count: 0,
+  },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+    decrement: (state) => ({ count: state.count - 1 }),
+    reset: () => ({ count: 0 }),
+  },
+});
+```
+
+**Key Changes:**
+
+- ✅ Import from `@unistash/zustand` instead of `zustand`
+- ✅ Separate `state` and `actions`
+- ✅ Actions are pure functions that return state updates
+- ✅ No need for `set()` function
+
+### Step 3: Update Component Usage
+
+#### Before (Zustand)
+
+```typescript
+function Counter() {
+  const count = useCounterStore((state) => state.count);
+  const increment = useCounterStore((state) => state.increment);
+  const decrement = useCounterStore((state) => state.decrement);
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={increment}>+</button>
+      <button onClick={decrement}>-</button>
+    </div>
+  );
+}
+```
+
+#### After (Unistash)
+
+```typescript
+function Counter() {
+  const { count, actions } = useCounterStore();
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={actions.increment}>+</button>
+      <button onClick={actions.decrement}>-</button>
+    </div>
+  );
+}
+```
+
+**Key Changes:**
+
+- ✅ Destructure state and actions directly
+- ✅ Access actions via `actions` object
+- ✅ No need for selectors (but they still work!)
+
+### Step 4: Computed/Derived Values
+
+#### Before (Zustand with Selectors)
+
+```typescript
+const useCounterStore = create<CounterState>((set, get) => ({
+  count: 0,
+  doubled: 0, // Manually updated
+  increment: () => {
+    set((state) => ({
+      count: state.count + 1,
+      doubled: (state.count + 1) * 2,
+    }));
+  },
+}));
+
+// Or using external selector
+const selectDoubled = (state: CounterState) => state.count * 2;
+
+// In component
+const doubled = useCounterStore(selectDoubled);
+```
+
+#### After (Unistash)
+
+```typescript
+const useCounterStore = createStore({
+  state: {
+    count: 0,
+  },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+  },
+  computed: {
+    doubled: (state) => state.count * 2,
+  },
+});
+
+// In component
+const { count, doubled, actions } = useCounterStore();
+```
+
+**Key Changes:**
+
+- ✅ Use `computed` for derived values
+- ✅ Automatically memoized
+- ✅ No manual updates needed
+
+## Advanced Patterns
+
+### Async Actions
+
+#### Before (Zustand)
+
+```typescript
+const useUserStore = create<UserState>((set) => ({
+  user: null,
+  loading: false,
+  error: null,
+  fetchUser: async (id: string) => {
+    set({ loading: true, error: null });
+    try {
+      const response = await fetch(`/api/users/${id}`);
+      const user = await response.json();
+      set({ user, loading: false });
+    } catch (error) {
+      set({ error: error.message, loading: false });
+    }
+  },
+}));
+```
+
+#### After (Unistash)
+
+```typescript
+const useUserStore = createStore({
+  state: {
+    user: null as User | null,
+    loading: false,
+    error: null as string | null,
+  },
+  actions: {
+    setLoading: (state, loading: boolean) => ({ loading }),
+    setUser: (state, user: User) => ({ user, loading: false }),
+    setError: (state, error: string) => ({ error, loading: false }),
+  },
+});
+
+// In component or custom hook
+async function fetchUser(id: string) {
+  const { actions } = useUserStore.getState();
+
+  actions.setLoading(true);
+  try {
+    const response = await fetch(`/api/users/${id}`);
+    const user = await response.json();
+    actions.setUser(user);
+  } catch (error) {
+    actions.setError(error.message);
+  }
+}
+```
+
+**Note:** Unistash keeps actions as pure functions. Handle async logic in components or custom hooks.
+
+### Nested State Updates
+
+#### Before (Zustand)
+
+```typescript
+const useTodoStore = create<TodoState>((set) => ({
+  todos: [],
+  addTodo: (text: string) =>
+    set((state) => ({
+      todos: [...state.todos, { id: Date.now(), text, done: false }],
+    })),
+  toggleTodo: (id: number) =>
+    set((state) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, done: !todo.done } : todo
+      ),
+    })),
+}));
+```
+
+#### After (Unistash)
+
+```typescript
+const useTodoStore = createStore({
+  state: {
+    todos: [] as Todo[],
+  },
+  actions: {
+    addTodo: (state, text: string) => ({
+      todos: [...state.todos, { id: Date.now(), text, done: false }],
+    }),
+    toggleTodo: (state, id: number) => ({
+      todos: state.todos.map((todo) =>
+        todo.id === id ? { ...todo, done: !todo.done } : todo
+      ),
+    }),
+  },
+});
+```
+
+**Key Changes:**
+
+- ✅ Same immutable update patterns
+- ✅ Actions receive state as first parameter
+- ✅ Additional arguments come after
+
+### Subscribing to Store Changes
+
+#### Before (Zustand)
+
+```typescript
+const unsubscribe = useCounterStore.subscribe((state) =>
+  console.log("Count changed:", state.count)
+);
+
+// Later
+unsubscribe();
+```
+
+#### After (Unistash)
+
+```typescript
+// Access underlying Zustand store
+const zustandStore = (useCounterStore as any)._store;
+
+const unsubscribe = zustandStore.subscribe((state) =>
+  console.log("Count changed:", state.count)
+);
+```
+
+**Note:** Direct subscriptions work but are adapter-specific. Consider using React patterns instead.
+
+### Accessing Store Outside Components
+
+#### Before (Zustand)
+
+```typescript
+// Works anywhere
+const count = useCounterStore.getState().count;
+useCounterStore.getState().increment();
+```
+
+#### After (Unistash)
+
+```typescript
+// Still works!
+const count = useCounterStore.getState().count;
+useCounterStore.setState({ count: 5 });
+
+// Or with actions
+const { actions } = useCounterStore.getState();
+// Note: actions need to be called differently outside components
+```
+
+## Middleware Support
+
+Zustand middleware is **not directly supported** in Unistash's unified API. However, you can:
+
+### Option 1: Use Adapter-Specific Features
+
+```typescript
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+// Create Zustand store with middleware
+const useStore = create(
+  persist(
+    (set) => ({
+      count: 0,
+      increment: () => set((state) => ({ count: state.count + 1 })),
+    }),
+    { name: "counter-storage" }
+  )
+);
+
+// Then wrap it with Unistash pattern manually
+```
+
+### Option 2: Wait for Unistash Middleware Support
+
+We're working on universal middleware support. Track progress: [GitHub Issue #X]
+
+## Migration Checklist
+
+- [ ] Install `@unistash/zustand`
+- [ ] Update imports from `zustand` to `@unistash/zustand`
+- [ ] Refactor stores to use `createStore({ state, actions })`
+- [ ] Move derived values to `computed` object
+- [ ] Update component usage (destructure instead of selectors)
+- [ ] Test all functionality
+- [ ] Remove unused Zustand imports
+- [ ] Update TypeScript types if needed
+
+## Common Pitfalls
+
+### Pitfall 1: Mutating State in Actions
+
+```typescript
+// ❌ Wrong
+actions: {
+  increment: (state) => {
+    state.count += 1; // Mutation!
+    return state;
+  };
+}
+
+// ✅ Correct
+actions: {
+  increment: (state) => ({
+    count: state.count + 1, // Return new object
+  });
+}
+```
+
+### Pitfall 2: Async Actions
+
+```typescript
+// ❌ Wrong - actions should be synchronous
+actions: {
+  fetchUser: async (state, id) => {
+    const user = await fetch(`/api/users/${id}`);
+    return { user };
+  };
+}
+
+// ✅ Correct - handle async in components
+actions: {
+  setUser: (state, user) => ({ user });
+}
+
+// In component
+async function loadUser(id: string) {
+  const user = await fetch(`/api/users/${id}`);
+  actions.setUser(user);
+}
+```
+
+### Pitfall 3: Accessing Other Actions
+
+```typescript
+// ❌ Wrong - can't access other actions directly
+actions: {
+  incrementBy: (state, amount) => {
+    this.increment(); // Doesn't work!
+    return { count: state.count + amount };
+  }
+}
+
+// ✅ Correct - actions are independent
+actions: {
+  increment: (state) => ({ count: state.count + 1 }),
+  incrementBy: (state, amount) => ({ count: state.count + amount })
+}
+```
+
+## Performance Considerations
+
+Unistash with Zustand adapter has:
+
+- ✅ **Same performance** as pure Zustand
+- ✅ **Same bundle size** (minimal wrapper overhead)
+- ✅ **Same re-render behavior**
+
+The adapter is a thin wrapper that translates your API to Zustand's implementation.
+
+## Benefits After Migration
+
+1. **Portability**: Switch to Redux/Jotai later if needed
+2. **Consistency**: Same API across all projects
+3. **Onboarding**: New team members learn one API
+4. **Future-proof**: Not locked into Zustand
+
+## Need Help?
+
+- 📚 [Full Documentation](/docs)
+- 💬 [GitHub Discussions](https://github.com/ShobhitPatra/unistash/discussions)
+- 🐛 [Report Issues](https://github.com/ShobhitPatra/unistash/issues)
+
+---

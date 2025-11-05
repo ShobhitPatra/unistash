@@ -1,0 +1,219 @@
+---
+title: Migrating from Jotai
+description: Step-by-step guide to migrate your Jotai app to Unistash
+---
+
+# Migrating from Jotai to Unistash
+
+This guide will help you migrate your existing Jotai application to Unistash while keeping Jotai underneath.
+
+## Why Migrate?
+
+- ✅ **Unified API**: Consistent interface across state libraries
+- ✅ **Flexibility**: Switch to Zustand/Redux later if needed
+- ✅ **Easier onboarding**: Simpler than managing atoms
+- ✅ **Keep benefits**: Still uses Jotai's atomic updates
+
+## Quick Overview
+
+| Aspect           | Difficulty | Time Estimate |
+| ---------------- | ---------- | ------------- |
+| Simple atoms     | 🟢 Easy    | 5-10 minutes  |
+| Derived atoms    | 🟢 Easy    | 10-15 minutes |
+| Complex patterns | 🟡 Medium  | 30-60 minutes |
+
+## Step-by-Step Migration
+
+### Step 1: Install Unistash
+
+```bash
+npm install @unistash/jotai
+# Jotai is already installed as peer dependency
+```
+
+### Step 2: Basic Atom Migration
+
+#### Before (Jotai)
+
+```typescript
+import { atom, useAtom } from "jotai";
+
+const countAtom = atom(0);
+const incrementAtom = atom(null, (get, set) =>
+  set(countAtom, get(countAtom) + 1)
+);
+
+function Counter() {
+  const [count] = useAtom(countAtom);
+  const [, increment] = useAtom(incrementAtom);
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={increment}>+</button>
+    </div>
+  );
+}
+```
+
+#### After (Unistash)
+
+```typescript
+import { createStore } from "@unistash/jotai";
+
+const useCounterStore = createStore({
+  state: {
+    count: 0,
+  },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+  },
+});
+
+function Counter() {
+  const { count, actions } = useCounterStore();
+
+  return (
+    <div>
+      <p>{count}</p>
+      <button onClick={actions.increment}>+</button>
+    </div>
+  );
+}
+```
+
+**Key Changes:**
+
+- ✅ No need to create separate atoms
+- ✅ State and actions in one place
+- ✅ Simpler component code
+
+### Step 3: Provider Setup
+
+#### Before (Jotai)
+
+```typescript
+import { Provider } from "jotai";
+
+function App() {
+  return (
+    <Provider>
+      <Counter />
+    </Provider>
+  );
+}
+```
+
+#### After (Unistash)
+
+```typescript
+import { Provider } from "jotai";
+
+function App() {
+  return (
+    <Provider>
+      <Counter />
+    </Provider>
+  );
+}
+```
+
+**No Change!** Still needs Jotai's Provider since Unistash uses Jotai underneath.
+
+### Step 4: Derived Atoms → Computed
+
+#### Before (Jotai)
+
+```typescript
+import { atom } from "jotai";
+
+const countAtom = atom(0);
+const doubledAtom = atom((get) => get(countAtom) * 2);
+const tripledAtom = atom((get) => get(countAtom) * 3);
+
+function Display() {
+  const [count] = useAtom(countAtom);
+  const [doubled] = useAtom(doubledAtom);
+  const [tripled] = useAtom(tripledAtom);
+
+  return (
+    <div>
+      {count} / {doubled} / {tripled}
+    </div>
+  );
+}
+```
+
+#### After (Unistash)
+
+```typescript
+const useCounterStore = createStore({
+  state: {
+    count: 0,
+  },
+  actions: {
+    increment: (state) => ({ count: state.count + 1 }),
+  },
+  computed: {
+    doubled: (state) => state.count * 2,
+    tripled: (state) => state.count * 3,
+  },
+});
+
+function Display() {
+  const { count, doubled, tripled } = useCounterStore();
+
+  return (
+    <div>
+      {count} / {doubled} / {tripled}
+    </div>
+  );
+}
+```
+
+**Key Changes:**
+
+- ✅ Use `computed` object for derived values
+- ✅ All values in one place
+- ✅ Cleaner component code
+
+## Advanced Patterns
+
+### Atom Families
+
+#### Before (Jotai)
+
+```typescript
+import { atomFamily } from "jotai/utils";
+
+const todoAtomFamily = atomFamily((id: string) =>
+  atom({ id, text: "", completed: false })
+);
+
+function TodoItem({ id }: { id: string }) {
+  const [todo, setTodo] = useAtom(todoAtomFamily(id));
+
+  return <div>{todo.text}</div>;
+}
+```
+
+#### After (Unistash)
+
+```typescript
+// Option 1: Use a single store with all todos
+const useTodoStore = createStore({
+  state: {
+    todos: {} as Record<string, Todo>,
+  },
+  actions: {
+    setTodo: (state, id: string, todo: Todo) => ({
+      todos: { ...state.todos, [id]: todo },
+    }),
+  },
+  computed: {
+    getTodo: (state) => (id: string) => state.todos[id],
+  },
+});
+
+// Option 2: Create stores dynamically
+```
