@@ -10,7 +10,7 @@ export default function HomePage() {
       <HeroExampleCodeBlock />
       <section className="text-center md:px-64 ">
         <h3 className="md:text-4xl text-2xl font-bold md:my-16">
-          Why Unstash ?
+          Why Unistash ?
         </h3>
         <ul className="space-y-6 text-left md:pl-96">
           <li className="flex justify-start items-center gap-4">
