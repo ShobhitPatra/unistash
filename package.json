@@ -38,6 +38,6 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
-    "turbo": "^2.8.3"
+    "turbo": "^2.8.9"
   }
 }
