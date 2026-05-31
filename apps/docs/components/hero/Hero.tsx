@@ -1,8 +1,8 @@
 "use client";
 import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+import ShikiHighlighter from "react-shiki";
 import { AnimatedShinyText } from "../ui/animated-shiny-text";
 import { AnimatedBeamSection } from "./AnimatedBeamSection";
-import ShikiHighlighter from "react-shiki";
 
 const installation_commannds = {
   zustand: "npm install @unistash/zustand ",

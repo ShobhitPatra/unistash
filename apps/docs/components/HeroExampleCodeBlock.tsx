@@ -1,6 +1,6 @@
 "use client";
 
-import { Tabs, Tab } from "fumadocs-ui/components/tabs";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 import ShikiHighlighter from "react-shiki";
 
 const examples = {

@@ -1,13 +1,17 @@
-import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { useSelector, useDispatch } from "react-redux";
+import {
+  configureStore,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import type { StoreConfig } from "@unistash/core";
+import { useDispatch, useSelector } from "react-redux";
 import { buildComputedSelectors } from "./utils";
 
 /**
  * Creates a Unistash store using Redux Toolkit as the underlying implementation
  */
 export function createStore<TState extends object>(
-  config: StoreConfig<TState>
+  config: StoreConfig<TState>,
 ) {
   // Build reducers from actions
   const reducers = {} as any;
@@ -41,7 +45,7 @@ export function createStore<TState extends object>(
   // Build computed selectors
   const computedSelectors = buildComputedSelectors(
     config.computed,
-    selectState
+    selectState,
   );
 
   // Action creators
@@ -81,7 +85,7 @@ export function createStore<TState extends object>(
   useStoreNormalized.setState = (partial: Partial<TState>) => {
     // Redux doesn't support direct setState, would need a custom action
     console.warn(
-      "setState is not directly supported with Redux adapter. Use actions instead."
+      "setState is not directly supported with Redux adapter. Use actions instead.",
     );
   };
 

@@ -1,5 +1,4 @@
-export { createStore } from "./createStore";
-export { createAtom } from "./createAtom";
-
 // Re-export types from core
-export type { StoreConfig, AtomConfig } from "@unistash/core";
+export type { AtomConfig, StoreConfig } from "@unistash/core";
+export { createAtom } from "./createAtom";
+export { createStore } from "./createStore";

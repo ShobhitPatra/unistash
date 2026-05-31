@@ -3,7 +3,7 @@
  */
 export function buildComputedValues(
   computed: Record<string, (state: any) => any> | undefined,
-  useStore: any
+  useStore: any,
 ) {
   const computedHooks = {} as any;
 

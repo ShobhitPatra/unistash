@@ -1,7 +1,7 @@
-import { Hero } from "@/components/hero/Hero";
-import { HeroExampleCodeBlock } from "@/components/HeroExampleCodeBlock";
 import { Github, X } from "lucide-react";
 import Link from "next/link";
+import { HeroExampleCodeBlock } from "@/components/HeroExampleCodeBlock";
+import { Hero } from "@/components/hero/Hero";
 
 export default function HomePage() {
   return (

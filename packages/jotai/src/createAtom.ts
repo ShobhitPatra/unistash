@@ -1,5 +1,5 @@
-import { atom, useAtom } from "jotai";
 import type { AtomConfig } from "@unistash/core";
+import { atom, useAtom } from "jotai";
 
 /**
  * Creates an atom using Jotai's native implementation

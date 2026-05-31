@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import type { StoreConfig } from "@unistash/core";
+import { create } from "zustand";
 import { buildComputedValues } from "./utils";
 
 /**
@@ -7,7 +7,7 @@ import { buildComputedValues } from "./utils";
  */
 export function createStore<
   TState extends object,
-  TActions extends Record<string, (...args: any[]) => any> = {}
+  TActions extends Record<string, (...args: any[]) => any> = {},
 >(config: StoreConfig<TState>) {
   // Create Zustand store with actions embedded
   const useStore = create<TState & { _actions: any }>((set, get) => {
