@@ -14,9 +14,8 @@
       "persistent": true
     },
     "test": {
-      "dependsOn": ["build"],
       "outputs": ["coverage/**"],
-      "inputs": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"]
+      "inputs": ["src/**/*.ts", "src/**/*.tsx"]
     },
     "clean": {
       "cache": false
