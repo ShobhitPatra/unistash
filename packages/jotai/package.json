@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
+    "@unistash/tsconfig": "workspace:*",
     "jotai": "^2.0.0",
     "react": "^18.0.0",
     "typescript": "^5.0.0"
