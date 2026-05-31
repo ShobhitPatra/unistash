@@ -1,12 +1,12 @@
-import { atom, useAtomValue, useSetAtom } from "jotai";
 import type { StoreConfig } from "@unistash/core";
+import { atom, useAtomValue, useSetAtom } from "jotai";
 import { buildActionAtoms, buildComputedAtoms } from "./utils";
 
 /**
  * Creates a Unistash store using Jotai as the underlying implementation
  */
 export function createStore<TState extends object>(
-  config: StoreConfig<TState>
+  config: StoreConfig<TState>,
 ) {
   // Create base atom for state
   const storeAtom = atom(config.state);
@@ -41,14 +41,14 @@ export function createStore<TState extends object>(
   // Add utility methods (with warnings for Jotai limitations)
   useStoreNormalized.getState = () => {
     console.warn(
-      "getState() is not fully supported with Jotai adapter outside React context"
+      "getState() is not fully supported with Jotai adapter outside React context",
     );
     return config.state;
   };
 
   useStoreNormalized.setState = () => {
     console.warn(
-      "setState() is not fully supported with Jotai adapter outside React context"
+      "setState() is not fully supported with Jotai adapter outside React context",
     );
   };
 
