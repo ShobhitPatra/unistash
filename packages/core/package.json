@@ -38,6 +38,7 @@
   },
   "homepage": "https://unistash.dev",
   "devDependencies": {
+    "@unistash/tsconfig": "workspace:*",
     "typescript": "^5.0.0"
   },
   "files": [
