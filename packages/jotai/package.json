@@ -39,7 +39,7 @@
   "homepage": "https://unistash-seven.vercel.app/docs/adapter/jotai",
   "peerDependencies": {
     "jotai": "^2.0.0",
-    "react": "^18.0.0"
+    "react": "^18.0.0 || ^19.0.0"
   },
   "dependencies": {
     "@unistash/core": "workspace:*"
