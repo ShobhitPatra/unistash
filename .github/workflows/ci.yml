@@ -2,41 +2,29 @@ name: CI
 
 on:
   push:
-    branches:
-      - main
-      - develop
+    branches: [main]
   pull_request:
-    branches:
-      - main
-      - develop
+    branches: [main]
 
-# Cancel previous runs if a new one is triggered
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  build:
-    name: Build Packages
+  verify:
+    name: Verify
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
-
+        node-version: [20.x, 22.x]
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 #
+          fetch-depth: 0
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v3
-        with:
-          version: 8
+      - uses: pnpm/action-setup@v4
 
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
           cache: "pnpm"
@@ -44,16 +32,23 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint & format check
+        run: pnpm biome ci .
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Test
+        run: pnpm test
+
       - name: Build packages
-        run: pnpm build
+        run: pnpm turbo run build --filter='./packages/*'
 
       - name: Verify build outputs
         run: |
-          echo "Checking build outputs..."
-          test -d packages/core/dist || (echo "core build failed" && exit 1)
-          test -d packages/zustand/dist || (echo "zustand build failed" && exit 1)
-          test -d packages/jotai/dist || (echo "jotai build failed" && exit 1)
-          test -d packages/redux/dist || (echo "redux build failed" && exit 1)
+          for pkg in core zustand jotai redux; do
+            test -d "packages/$pkg/dist" || { echo "$pkg build failed"; exit 1; }
+          done
           echo "All packages built successfully!"
 
       - name: Upload build artifacts
@@ -61,6 +56,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: |
-            packages/*/dist
+          path: packages/*/dist
           retention-days: 7
