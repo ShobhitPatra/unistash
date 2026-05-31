@@ -19,6 +19,10 @@
     },
     "clean": {
       "cache": false
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**/*.ts", "src/**/*.tsx", "tsconfig.json"]
     }
   }
 }
