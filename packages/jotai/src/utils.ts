@@ -1,12 +1,12 @@
+import type { Atom, WritableAtom } from "jotai";
 import { atom } from "jotai";
-import type { WritableAtom, Atom } from "jotai";
 
 /**
  * Builds action atoms for Jotai
  */
 export function buildActionAtoms(
   actions: Record<string, (state: any, ...args: any[]) => any> | undefined,
-  storeAtom: WritableAtom<any, any, any>
+  storeAtom: WritableAtom<any, any, any>,
 ) {
   const actionAtoms = {} as Record<string, WritableAtom<null, any, void>>;
 
@@ -28,7 +28,7 @@ export function buildActionAtoms(
  */
 export function buildComputedAtoms(
   computed: Record<string, (state: any) => any> | undefined,
-  storeAtom: Atom<any>
+  storeAtom: Atom<any>,
 ) {
   const computedAtoms = {} as Record<string, Atom<any>>;
 
