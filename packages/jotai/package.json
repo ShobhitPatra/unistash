@@ -19,7 +19,8 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest run"
   },
   "keywords": [
     "unistash",
@@ -45,10 +46,12 @@
     "@unistash/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/react": "^18.0.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
     "@unistash/tsconfig": "workspace:*",
     "jotai": "^2.0.0",
-    "react": "^18.0.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "typescript": "^5.0.0"
   },
   "files": [

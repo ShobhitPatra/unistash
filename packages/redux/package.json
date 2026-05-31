@@ -19,7 +19,8 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest run"
   },
   "keywords": [
     "unistash",
@@ -48,9 +49,11 @@
   },
   "devDependencies": {
     "@reduxjs/toolkit": "^2.0.0",
-    "@types/react": "^18.0.0",
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
     "@unistash/tsconfig": "workspace:*",
-    "react": "^18.0.0",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "react-redux": "^9.0.0",
     "typescript": "^5.0.0"
   },
