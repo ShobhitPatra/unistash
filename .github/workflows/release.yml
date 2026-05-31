@@ -15,6 +15,11 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    env:
+      # Disable git hooks (husky) in CI: the changesets action commits a
+      # "Version Packages" message that is not a Conventional Commit and would
+      # otherwise be rejected by the commitlint commit-msg hook.
+      HUSKY: "0"
     steps:
       - uses: actions/checkout@v4
         with:
