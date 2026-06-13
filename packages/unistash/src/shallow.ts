@@ -15,7 +15,8 @@ export function shallow<T>(a: T, b: T): boolean {
 
   for (const key of keysA) {
     if (
-      !Object.hasOwn(b as object, key) ||
+      // biome-ignore lint/suspicious/noPrototypeBuiltins: Object.hasOwn is ES2022; this package targets ES2020
+      !Object.prototype.hasOwnProperty.call(b, key) ||
       !Object.is(
         (a as Record<string, unknown>)[key],
         (b as Record<string, unknown>)[key],

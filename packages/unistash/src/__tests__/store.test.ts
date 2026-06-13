@@ -15,7 +15,7 @@ describe("vanilla store: state, setState, subscribe", () => {
 
   it("accepts an updater function on setState", () => {
     const store = createVanillaStore({ state: { count: 1 } });
-    store.setState((s) => ({ count: s.count + 9 }));
+    store.setState((s) => ({ count: (s.count as number) + 9 }));
     expect(store.getState()).toEqual({ count: 10 });
   });
 
