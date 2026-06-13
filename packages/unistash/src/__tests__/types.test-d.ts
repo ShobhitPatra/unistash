@@ -39,3 +39,44 @@ void _ok;
 void _bad;
 void _snap;
 void _snapBad;
+
+import { createStore } from "../index";
+
+const useTyped = createStore({
+  state: { count: 0, name: "a" },
+  actions: {
+    increment: (s) => ({ count: s.count + 1 }),
+    add: (s, n: number) => ({ count: s.count + n }),
+  },
+  computed: {
+    doubled: (s) => s.count * 2,
+  },
+});
+
+const full = useTyped();
+const _c: number = full.count;
+const _n: string = full.name;
+const _d: number = full.doubled;
+full.increment();
+full.add(3);
+// @ts-expect-error add requires a number argument
+full.add("x");
+// @ts-expect-error count is a number, not a string
+const _wrong: string = full.count;
+// @ts-expect-error no such member
+full.nope;
+
+// Selector form is typed from the snapshot.
+const justCount = useTyped((s) => s.count);
+const _jc: number = justCount;
+
+// Statics
+const _state = useTyped.getState();
+const _sc: number = _state.count;
+
+void _c;
+void _n;
+void _d;
+void _wrong;
+void _jc;
+void _sc;
