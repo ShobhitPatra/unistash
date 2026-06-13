@@ -288,6 +288,27 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  packages/unistash:
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.15
+        version: 19.2.15
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.15)
+      '@unistash/tsconfig':
+        specifier: workspace:*
+        version: link:../../tooling/tsconfig
+      react:
+        specifier: ^19.2.6
+        version: 19.2.6
+      react-dom:
+        specifier: ^19.2.6
+        version: 19.2.6(react@19.2.6)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
   packages/zustand:
     dependencies:
       '@unistash/core':

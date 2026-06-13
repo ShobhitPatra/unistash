@@ -1,0 +1,57 @@
+{
+  "name": "unistash",
+  "version": "2.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "Write once. Stash anywhere. A tiny, typed, zero-dependency React state library.",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm run build",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "unistash",
+    "state-management",
+    "react",
+    "store",
+    "typescript",
+    "hooks",
+    "zero-dependency"
+  ],
+  "author": "ShobhitPatra<shobhitpatra.dev@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShobhitPatra/unistash",
+    "directory": "packages/unistash"
+  },
+  "homepage": "https://unistash-seven.vercel.app",
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.15",
+    "@types/react-dom": "^19.2.3",
+    "@unistash/tsconfig": "workspace:*",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
+    "typescript": "^5.0.0"
+  },
+  "files": [
+    "dist"
+  ]
+}
