@@ -1,4 +1,5 @@
 import { act, render, renderHook, screen } from "@testing-library/react";
+import { renderToString } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import { createStore } from "../react/createStore";
 import { shallow } from "../shallow";
@@ -99,5 +100,30 @@ describe("createStore (React)", () => {
     expect(btn.textContent).toBe("0:0");
     act(() => btn.click());
     expect(btn.textContent).toBe("1:2");
+  });
+
+  it("renders on the server using the server snapshot", () => {
+    const useCounter = makeCounter();
+    function View() {
+      const { count, doubled } = useCounter();
+      return <span>{`${count}:${doubled}`}</span>;
+    }
+    const html = renderToString(<View />);
+    expect(html).toContain("0:0");
+  });
+
+  it("memoizes correctly when the selector returns a falsy value", () => {
+    const useCounter = makeCounter();
+    let renders = 0;
+    const { result } = renderHook(() => {
+      renders++;
+      return useCounter((s) => s.count); // starts at 0 (falsy)
+    });
+    expect(result.current).toBe(0);
+    const after = renders;
+    act(() => useCounter.setState({ other: "changed" }));
+    // selected value still 0 -> no re-render despite a new snapshot
+    expect(renders).toBe(after);
+    expect(result.current).toBe(0);
   });
 });
