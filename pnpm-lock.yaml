@@ -68,6 +68,9 @@ importers:
       fumadocs-ui:
         specifier: 16.0.3
         version: 16.0.3(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(lucide-react@0.546.0(react@19.2.6))(next@16.0.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(tailwindcss@4.3.0)
+      geist:
+        specifier: ^1.7.2
+        version: 1.7.2(next@16.0.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
       lucide-react:
         specifier: ^0.546.0
         version: 0.546.0(react@19.2.6)
@@ -95,6 +98,9 @@ importers:
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.6.0
+      unistash:
+        specifier: workspace:*
+        version: link:../../packages/unistash
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.1.15
@@ -2631,6 +2637,11 @@ packages:
         optional: true
       tailwindcss:
         optional: true
+
+  geist@1.7.2:
+    resolution: {integrity: sha512-Gu5lDFa3pLRyoBlBPf0QIFHVdWAnpco7fS1bJm41jyLPFoguBgiubseUN2oLXMgqZ7uxAxDoXcHMhCY/fOTTgg==}
+    peerDependencies:
+      next: '>=13.2.0'
 
   gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -6199,6 +6210,10 @@ snapshots:
       - react-router
       - supports-color
       - waku
+
+  geist@1.7.2(next@16.0.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6)):
+    dependencies:
+      next: 16.0.10(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
 
   gensync@1.0.0-beta.2: {}
 
