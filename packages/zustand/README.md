@@ -23,4 +23,4 @@ const useStore = createStore({
 });
 ```
 
-See [unistash.dev](https://unistash-seven.vercel.app/docs/adapter/zustand) for full documentation.
+See the [migration guide](https://unistashjs.vercel.app/docs/migration/v1-to-v2) for moving to `unistash`.
