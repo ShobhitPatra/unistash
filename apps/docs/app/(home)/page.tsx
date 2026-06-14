@@ -1,78 +1,50 @@
-import { Github, X } from "lucide-react";
 import Link from "next/link";
-import { HeroExampleCodeBlock } from "@/components/HeroExampleCodeBlock";
 import { Hero } from "@/components/hero/Hero";
+import { LiveDemo } from "@/components/LiveDemo";
+
+const FEATURES = [
+  ["Zero dependencies", "One install. No peer libraries."],
+  ["Fully typed", "Autocomplete on state, computed & actions."],
+  ["Tiny", "A few hundred bytes of engine."],
+  ["Selectors", "Fine-grained re-renders, opt-in."],
+  ["SSR-ready", "Next.js, no hydration mismatch."],
+  ["No boilerplate", "No providers, no reducers."],
+];
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col justify-center text-center flex-1  md:gap-32 gap-16 dark:bg-linear-to-t dark:from-black  dark:via-slate-950 dark:to-black bg-linear-to-t from-gray-300 via-indigo-200 to-white p-2">
+    <main className="flex flex-1 flex-col gap-20 px-6 py-10 md:px-8">
       <Hero />
-      <HeroExampleCodeBlock />
-      <section className="text-center md:px-64 ">
-        <h3 className="md:text-4xl text-2xl font-bold md:my-16 my-4">
-          Why Unistash ?
-        </h3>
-        <ul className="space-y-6 text-left md:pl-96">
-          <li className="flex justify-start items-center gap-4">
-            <p className="md:text-2xl text-xl font-semibold">
-              Switch libraries instantly
-            </p>
-            <p className="font-light text-xl dark:text-gray-300">
-              Change one import, keep your code
-            </p>
-          </li>
-          <li className="flex justify-start items-center gap-4">
-            <p className="md:text-2xl text-xl font-semibold">
-              Learn once, use everywhere
-            </p>
-            <p className="font-light text-xl dark:text-gray-300">
-              One API for all state librarie
-            </p>
-          </li>
-          <li className="flex justify-start items-center gap-4">
-            <p className="md:text-2xl text-xl font-semibold">
-              Zero vendor lock-in
-            </p>
-            <p className="font-light text-xl dark:text-gray-300">
-              Never rewrite state logic again
-            </p>
-          </li>
-          <li className="flex justify-start items-center gap-4">
-            <p className="md:text-2xl text-xl font-semibold">
-              Perfect for OSS Contributors
-            </p>
-            <p className="font-light text-xl dark:text-gray-300">
-              don't need to learn every library
-            </p>
-          </li>
-          <li className="flex justify-start items-center gap-4">
-            <p className="md:text-2xl text-xl font-semibold">Type-safe</p>
-            <p className="font-light text-xl dark:text-gray-300">
-              Full TypeScript support across all adapters
-            </p>
-          </li>
-        </ul>
+
+      <section className="flex flex-col gap-6">
+        <h2 className="text-center text-xs uppercase tracking-widest text-fd-muted-foreground">
+          Live — really running
+        </h2>
+        <LiveDemo />
       </section>
-      <div>
-        <Link href={"/docs/installation"}>
-          <button className="dark:bg-white dark:text-black py-2 px-4 rounded-md hover:dark:bg-gray-300 bg-black text-white hover:bg-gray-800">
-            Get Started
-          </button>
+
+      <section className="mx-auto grid w-full max-w-3xl gap-x-10 gap-y-8 sm:grid-cols-2 md:grid-cols-3">
+        {FEATURES.map(([title, desc]) => (
+          <div key={title} className="flex flex-col gap-1">
+            <h3 className="text-sm font-semibold uppercase tracking-wide">
+              {title}
+            </h3>
+            <p className="text-xs text-fd-muted-foreground lowercase">{desc}</p>
+          </div>
+        ))}
+      </section>
+
+      <section className="flex flex-col items-center gap-4 py-10 text-center">
+        <h2 className="text-lg font-semibold uppercase tracking-wide">
+          Ready in one import.
+        </h2>
+        <Link
+          href="/docs"
+          className="rounded-md bg-fd-foreground px-5 py-2 text-sm font-medium text-fd-background transition-opacity hover:opacity-90"
+        >
+          Read the docs →
         </Link>
-      </div>
-      <footer>
-        <div className="h-[0.5px] dark:bg-gray-600 bg-gray-700 md:mx-32 md:mb-16"></div>
-        <div className="flex justify-center items-center gap-5 mb-2">
-          <p>Unisatsh v1.0.0</p>
-          <p>by Shobhit Patra</p>
-          <Link href={"https://github.com/ShobhitPatra"}>
-            <Github size={18} />
-          </Link>
-          <Link href={"https://x.com/shobhit_tw"}>
-            <X size={20} />
-          </Link>
-        </div>
-      </footer>
-    </div>
+      </section>
+    </main>
   );
 }
