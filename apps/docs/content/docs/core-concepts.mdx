@@ -1,0 +1,46 @@
+---
+title: Core concepts
+description: State, actions, and computed values.
+---
+
+# Core concepts
+
+A store is defined by three optional-but-typed parts.
+
+## State
+
+The initial state object. Its shape is inferred everywhere.
+
+```tsx
+state: { count: 0, user: null as User | null }
+```
+
+## Actions
+
+Pure functions: they receive the current state (plus any args) and return a
+**partial** that is shallow-merged in.
+
+```tsx
+actions: {
+  increment: (s) => ({ count: s.count + 1 }),
+  add: (s, n: number) => ({ count: s.count + n }),
+}
+```
+
+The bound action drops the `state` parameter, so you call `add(5)`.
+
+## Computed
+
+Derived values, recomputed from state on every change.
+
+```tsx
+computed: {
+  doubled: (s) => s.count * 2,
+  isEven: (s) => s.count % 2 === 0,
+}
+```
+
+## One namespace
+
+State, computed, and action names are merged into one object, so they must be
+**unique**. A duplicate key throws when the store is created.

@@ -1,0 +1,35 @@
+---
+title: Selectors
+description: Fine-grained re-renders with selectors and custom equality.
+---
+
+# Selectors
+
+Calling the hook bare re-renders on **any** state change:
+
+```tsx
+const everything = useCounter();
+```
+
+Pass a selector to subscribe to just a slice — the component re-renders only
+when that slice changes:
+
+```tsx
+const count = useCounter((s) => s.count);
+```
+
+## Custom equality
+
+Selectors that return a new object every render would always re-render. Pass an
+equality function — `shallow` is exported for the common case:
+
+```tsx
+import { shallow } from "unistash";
+
+const { a, b } = useCounter(
+  (s) => ({ a: s.count, b: s.doubled }),
+  shallow,
+);
+```
+
+The default equality is `Object.is`.

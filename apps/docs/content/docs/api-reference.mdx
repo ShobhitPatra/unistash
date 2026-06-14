@@ -1,61 +1,42 @@
 ---
-title: API Reference
-description: Complete API documentation
+title: API reference
+description: createStore, the hook, and helpers.
 ---
 
-# API Reference
+# API reference
 
-## createStore
+## `createStore(config)`
 
-Creates a Unistash store with state, actions, and computed values.
-
-### Signature
-
-```typescript
-function createStore<TState>(config: StoreConfig<TState>): StoreHook;
+```ts
+createStore({
+  state,      // object
+  actions?,   // { [name]: (state, ...args) => Partial<state> }
+  computed?,  // { [name]: (state) => value }
+}) => useStore
 ```
 
-### Parameters
+Returns a hook with imperative statics attached.
 
-#### config.state
+## The hook
 
-- **Type:** `TState`
-- **Required:** Yes
-- Initial state object
+```ts
+useStore()                       // whole snapshot: state + computed + actions
+useStore(selector)               // selected slice (Object.is equality)
+useStore(selector, equalityFn)   // selected slice (custom equality)
+```
 
-#### config.actions
+## Statics
 
-- **Type:** `Record<string, (state: TState, ...args: any[]) => Partial<TState>>`
-- **Required:** No
-- Action functions that update state
+```ts
+useStore.getState()              // raw state (no computed/actions)
+useStore.setState(partial)       // partial | (state) => partial, shallow-merged
+useStore.subscribe(listener)     // (snapshot) => void ; returns unsubscribe
+```
 
-#### config.computed
+## `shallow(a, b)`
 
-- **Type:** `Record<string, (state: TState) => any>`
-- **Required:** No
-- Computed/derived values from state
+One-level structural equality helper for use as a selector `equalityFn`.
 
-### Returns
-
-A React hook that returns the current state, computed values, and actions.
-
-### Example
-
-```typescript
-const useStore = createStore({
-  state: {
-    count: 0,
-    name: "Counter",
-  },
-  actions: {
-    increment: (state) => ({ count: state.count + 1 }),
-    setName: (state, name: string) => ({ name }),
-  },
-  computed: {
-    doubled: (state) => state.count * 2,
-  },
-});
-
-// In component
-const { count, doubled, name, actions } = useStore();
+```ts
+import { shallow } from "unistash";
 ```

@@ -1,0 +1,11 @@
+{
+  "pages": [
+    "index",
+    "quick-start",
+    "core-concepts",
+    "selectors",
+    "ssr",
+    "api-reference",
+    "migration"
+  ]
+}
