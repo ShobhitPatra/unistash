@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "description": "Jotai adapter for Unistash - Write once. Stash anywhere.",
+  "description": "[DEPRECATED] Use the `unistash` package instead. Jotai adapter for Unistash v1.",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",

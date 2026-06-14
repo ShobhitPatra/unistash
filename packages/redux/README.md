@@ -1,5 +1,7 @@
 # @unistash/redux
 
+> ⚠️ **Deprecated.** Unistash v2 is a single, zero-dependency package — install **[`unistash`](https://www.npmjs.com/package/unistash)** instead. See the [v1 → v2 migration guide](https://github.com/ShobhitPatra/unistash/blob/main/apps/docs/content/docs/migration/v1-to-v2.mdx). This adapter is no longer maintained.
+
 Redux Toolkit adapter for Unistash.
 
 ## Installation
