@@ -1,120 +1,30 @@
-"use client";
-import { Tab, Tabs } from "fumadocs-ui/components/tabs";
-import ShikiHighlighter from "react-shiki";
-import { AnimatedShinyText } from "../ui/animated-shiny-text";
-import { AnimatedBeamSection } from "./AnimatedBeamSection";
+import Link from "next/link";
+import { CopyCommand } from "@/components/CopyCommand";
 
-const installation_commannds = {
-  zustand: "npm install @unistash/zustand ",
-  jotai: "npm install @unistash/jotai ",
-  redux: "npm install @unistash/redux ",
-  recoil: "npm install @unistash/recoil ",
-  valtio: "npm install @unistash/valtio ",
-};
 export const Hero = () => {
   return (
-    <main className="flex justify-center flex-wrap md:mt-16">
-      <section className="flex flex-col items-start justify-center gap-2 ">
-        <h1 className="md:text-2xl text-xl font-semibold">
-          <AnimatedShinyText>Unistash</AnimatedShinyText>
-        </h1>
-        <p className="tagline  md:text-4xl text-2xl font-bold">
-          Write once. Stash anywhere.
-        </p>
-        <div className="description dark:text-gray-400 md:w-2xl text-left">
-          One API for every React state library. Switch between Zustand, Jotai,
-          Redux, and more by changing a single import.
-        </div>
-        <Tabs
-          items={["Zustand", "Redux", "Jotai", "Recoil", "Valtio"]}
-          defaultIndex={0}
-          className="dark:bg-black "
+    <section className="flex flex-col items-center gap-6 pt-24 pb-12 text-center">
+      <h1 className="max-w-3xl text-balance text-3xl font-semibold uppercase leading-[1.1] tracking-tight md:text-5xl">
+        The simplest way to manage React state.
+      </h1>
+      <p className="text-sm lowercase tracking-wide text-fd-muted-foreground md:text-base">
+        tiny &middot; fully typed &middot; zero dependencies
+      </p>
+      <CopyCommand command="npm install unistash" />
+      <div className="flex gap-3 pt-2">
+        <Link
+          href="/docs"
+          className="rounded-md bg-fd-foreground px-4 py-2 text-sm font-medium text-fd-background transition-opacity hover:opacity-90"
         >
-          <Tab value="Zustand" className="rounded-none p-1 dark:bg-black ">
-            <ShikiHighlighter
-              className="text-xs "
-              showLanguage={false}
-              style={{ textAlign: "left" }}
-              language={"bash"}
-              theme={{
-                light: "everforest-light",
-                dark: "github-dark",
-                dim: "github-dark-dimmed",
-              }}
-              defaultColor="dark"
-            >
-              {installation_commannds.zustand}
-            </ShikiHighlighter>
-          </Tab>
-          <Tab value="Redux" className="rounded-none p-1 dark:bg-black  ">
-            <ShikiHighlighter
-              className="text-xs "
-              showLanguage={false}
-              style={{ textAlign: "left" }}
-              language={"bash"}
-              theme={{
-                light: "everforest-light",
-                dark: "github-dark",
-                dim: "github-dark-dimmed",
-              }}
-              defaultColor="dark"
-            >
-              {installation_commannds.redux}
-            </ShikiHighlighter>
-          </Tab>
-          <Tab value="Jotai" className="rounded-none p-1 dark:bg-black  ">
-            <ShikiHighlighter
-              className="text-xs "
-              showLanguage={false}
-              style={{ textAlign: "left" }}
-              language={"bash"}
-              theme={{
-                light: "everforest-light",
-                dark: "github-dark",
-                dim: "github-dark-dimmed",
-              }}
-              defaultColor="dark"
-            >
-              {installation_commannds.jotai}
-            </ShikiHighlighter>
-          </Tab>
-          <Tab value="Recoil" className="rounded-none p-1 dark:bg-black  ">
-            <ShikiHighlighter
-              className="text-xs "
-              showLanguage={false}
-              style={{ textAlign: "left" }}
-              language={"bash"}
-              theme={{
-                light: "everforest-light",
-                dark: "github-dark",
-                dim: "github-dark-dimmed",
-              }}
-              defaultColor="dark"
-            >
-              {installation_commannds.recoil}
-            </ShikiHighlighter>
-          </Tab>
-          <Tab value="Valtio" className="rounded-none p-1 dark:bg-black  ">
-            <ShikiHighlighter
-              className="text-xs "
-              showLanguage={false}
-              style={{ textAlign: "left" }}
-              language={"bash"}
-              theme={{
-                light: "everforest-light",
-                dark: "github-dark",
-                dim: "github-dark-dimmed",
-              }}
-              defaultColor="dark"
-            >
-              {installation_commannds.valtio}
-            </ShikiHighlighter>
-          </Tab>
-        </Tabs>
-      </section>
-      <section className="lex just items-center">
-        <AnimatedBeamSection />
-      </section>
-    </main>
+          Get started
+        </Link>
+        <Link
+          href="https://github.com/ShobhitPatra/unistash"
+          className="rounded-md bg-[#238636] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#2ea043]"
+        >
+          GitHub
+        </Link>
+      </div>
+    </section>
   );
 };

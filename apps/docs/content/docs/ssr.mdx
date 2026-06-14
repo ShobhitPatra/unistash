@@ -1,0 +1,26 @@
+---
+title: SSR
+description: Server-side rendering with Next.js.
+---
+
+# SSR
+
+unistash uses React's `useSyncExternalStore` with a server snapshot, so stores
+render on the server without hydration mismatches. Use them in Next.js
+(App Router or Pages) like any other hook:
+
+```tsx
+"use client";
+import { createStore } from "unistash";
+
+const useCounter = createStore({ state: { count: 0 } });
+
+export function Counter() {
+  const { count } = useCounter();
+  return <span>{count}</span>;
+}
+```
+
+The server renders the initial state; the client hydrates to the same value.
+Define stores at module scope (not inside a component) so the reference is
+stable across renders.

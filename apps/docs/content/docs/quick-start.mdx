@@ -1,0 +1,42 @@
+---
+title: Quick start
+description: Install unistash and build your first store.
+---
+
+# Quick start
+
+```bash
+npm install unistash
+```
+
+Create a store with `createStore`. It returns a hook.
+
+```tsx
+import { createStore } from "unistash";
+
+const useCounter = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (s) => ({ count: s.count + 1 }),
+    add: (s, n: number) => ({ count: s.count + n }),
+  },
+});
+```
+
+Call the hook to read state and actions — they're all on one object:
+
+```tsx
+function Counter() {
+  const { count, increment, add } = useCounter();
+  return (
+    <div>
+      <span>{count}</span>
+      <button onClick={increment}>+1</button>
+      <button onClick={() => add(5)}>+5</button>
+    </div>
+  );
+}
+```
+
+That's the whole API surface for a basic store. No provider needed.
+Next: [Core concepts](/docs/core-concepts).

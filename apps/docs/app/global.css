@@ -144,3 +144,49 @@ pre code {
   display: block;
   line-height: 1.6;
 } */
+
+/* ── unistash v2 theme: mono + ALL-CAPS + minimal ── */
+:root {
+  --fd-font-mono: var(--font-geist-mono, ui-monospace, monospace);
+  /* full-bleed docs layout: sidebar sits flush against the left edge
+     instead of inside a centered max-width container */
+  --fd-layout-width: 100%;
+}
+
+/* pure-black dark background (fumadocs neutral preset is dark grey) */
+.dark {
+  --color-fd-background: #000;
+}
+
+/* npm nav link in npm's brand red */
+a[href*="npmjs.com/package/unistash"] {
+  color: #cb3837 !important;
+}
+
+html,
+body {
+  font-family: var(--fd-font-mono);
+  letter-spacing: -0.01em;
+}
+
+/* ALL-CAPS headings with breathing room */
+h1,
+h2,
+h3,
+.fd-heading,
+article h1,
+article h2,
+article h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+}
+
+/* keep code blocks readable (not uppercased) */
+pre,
+code,
+kbd,
+samp {
+  text-transform: none;
+  letter-spacing: 0;
+}

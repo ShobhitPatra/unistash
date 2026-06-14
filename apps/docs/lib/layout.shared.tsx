@@ -1,25 +1,18 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { url } from "inspector";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function baseOptions(): BaseLayoutProps {
   return {
     nav: {
-      title: "Unistash",
+      title: "unistash",
     },
     githubUrl: "https://github.com/ShobhitPatra/unistash",
     links: [
-      {
-        text: "Documentation",
-        url: "/docs",
-      },
-      {
-        text: "Examples",
-        url: "https://github.com/ShobhitPatra/unistash/tree/master/examples",
-      },
-      {
-        text: "Releases",
-        url: "https://www.npmjs.com/package/@unistash/core",
-      },
+      { text: "docs", url: "/docs" },
+      { text: "npm", url: "https://www.npmjs.com/package/unistash" },
     ],
+    themeSwitch: {
+      component: <ThemeToggle />,
+    },
   };
 }
