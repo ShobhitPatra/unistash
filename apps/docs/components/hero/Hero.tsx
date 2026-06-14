@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CopyCommand } from "@/components/CopyCommand";
 
 export const Hero = () => {
   return (
@@ -9,10 +10,7 @@ export const Hero = () => {
       <p className="text-sm lowercase tracking-wide text-fd-muted-foreground md:text-base">
         tiny &middot; fully typed &middot; zero dependencies
       </p>
-      <code className="mt-1 inline-flex items-center gap-2 rounded-md border border-fd-border bg-fd-card px-4 py-2 text-sm text-fd-foreground">
-        <span className="select-none text-fd-muted-foreground">$</span>
-        npm install unistash
-      </code>
+      <CopyCommand command="npm install unistash" />
       <div className="flex gap-3 pt-2">
         <Link
           href="/docs"
@@ -22,7 +20,7 @@ export const Hero = () => {
         </Link>
         <Link
           href="https://github.com/ShobhitPatra/unistash"
-          className="rounded-md border border-fd-border px-4 py-2 text-sm transition-colors hover:bg-fd-accent hover:text-fd-accent-foreground"
+          className="rounded-md bg-[#238636] px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-[#2ea043]"
         >
           GitHub
         </Link>

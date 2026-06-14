@@ -148,6 +148,19 @@ pre code {
 /* ── unistash v2 theme: mono + ALL-CAPS + minimal ── */
 :root {
   --fd-font-mono: var(--font-geist-mono, ui-monospace, monospace);
+  /* full-bleed docs layout: sidebar sits flush against the left edge
+     instead of inside a centered max-width container */
+  --fd-layout-width: 100%;
+}
+
+/* pure-black dark background (fumadocs neutral preset is dark grey) */
+.dark {
+  --color-fd-background: #000;
+}
+
+/* npm nav link in npm's brand red */
+a[href*="npmjs.com/package/unistash"] {
+  color: #cb3837 !important;
 }
 
 html,

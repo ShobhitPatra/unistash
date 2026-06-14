@@ -1,4 +1,5 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export function baseOptions(): BaseLayoutProps {
   return {
@@ -7,8 +8,11 @@ export function baseOptions(): BaseLayoutProps {
     },
     githubUrl: "https://github.com/ShobhitPatra/unistash",
     links: [
-      { text: "Docs", url: "/docs" },
+      { text: "docs", url: "/docs" },
       { text: "npm", url: "https://www.npmjs.com/package/unistash" },
     ],
+    themeSwitch: {
+      component: <ThemeToggle />,
+    },
   };
 }
