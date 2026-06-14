@@ -144,3 +144,36 @@ pre code {
   display: block;
   line-height: 1.6;
 } */
+
+/* ── unistash v2 theme: mono + ALL-CAPS + minimal ── */
+:root {
+  --fd-font-mono: var(--font-geist-mono, ui-monospace, monospace);
+}
+
+html,
+body {
+  font-family: var(--fd-font-mono);
+  letter-spacing: -0.01em;
+}
+
+/* ALL-CAPS headings with breathing room */
+h1,
+h2,
+h3,
+.fd-heading,
+article h1,
+article h2,
+article h3 {
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  font-weight: 600;
+}
+
+/* keep code blocks readable (not uppercased) */
+pre,
+code,
+kbd,
+samp {
+  text-transform: none;
+  letter-spacing: 0;
+}
