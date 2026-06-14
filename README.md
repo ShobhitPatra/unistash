@@ -1,12 +1,15 @@
 # Unistash
 
 [![CI](https://github.com/ShobhitPatra/unistash/actions/workflows/ci.yml/badge.svg)](https://github.com/ShobhitPatra/unistash/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/@unistash/zustand.svg)](https://www.npmjs.com/package/@unistash/zustand)
+[![npm](https://img.shields.io/npm/v/unistash.svg)](https://www.npmjs.com/package/unistash)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 **Write once. Stash anywhere.**
 
-Lightweight React state management that just works. One package, zero dependencies, full TypeScript support. Swap engines with a single import change.
+The simplest way to manage React state — a tiny, fully-typed, zero-dependency
+store. One `createStore`, no providers, no reducers.
+
+[Documentation](https://unistashjs.vercel.app)
 
 ## Install
 
@@ -14,116 +17,59 @@ Lightweight React state management that just works. One package, zero dependenci
 npm install unistash
 ```
 
-## Quick Start
+## Quick start
 
-```typescript
+```tsx
 import { createStore } from "unistash";
 
 const useCounter = createStore({
-  state: {
-    count: 0,
-  },
+  state: { count: 0 },
   actions: {
-    increment: (state) => ({ count: state.count + 1 }),
-    decrement: (state) => ({ count: state.count - 1 }),
-    add: (state, amount: number) => ({ count: state.count + amount }),
+    increment: (s) => ({ count: s.count + 1 }),
+    add: (s, n: number) => ({ count: s.count + n }),
   },
   computed: {
-    doubled: (state) => state.count * 2,
-    isPositive: (state) => state.count > 0,
+    doubled: (s) => s.count * 2,
   },
 });
 
 function Counter() {
-  const { count, doubled, increment, decrement } = useCounter();
-
+  const { count, doubled, increment } = useCounter();
   return (
-    <div>
-      <p>
-        Count: {count} (doubled: {doubled})
-      </p>
-      <button onClick={increment}>+</button>
-      <button onClick={decrement}>-</button>
-    </div>
+    <button onClick={increment}>
+      {count} ({doubled})
+    </button>
   );
 }
 ```
 
+State, computed values, and actions all come from one hook.
+
+## Selectors
+
+```tsx
+// re-renders only when count changes
+const count = useCounter((s) => s.count);
+
+import { shallow } from "unistash";
+const slice = useCounter((s) => ({ a: s.count, b: s.doubled }), shallow);
+```
+
+## Imperative API
+
+```ts
+useCounter.getState();
+useCounter.setState({ count: 5 });
+const unsubscribe = useCounter.subscribe((snapshot) => {});
+```
+
 ## Features
 
-- **Lightweight** — zero dependencies, built on React's `useSyncExternalStore`
-- **Simple API** — `createStore` is the entire API
-- **Type-safe** — full inference, no generics needed
-- **Swappable** — change one import to switch to Zustand, Jotai, or Redux
-- **DevTools** — built-in console logging + optional Redux DevTools
-
-## Adapters
-
-The default engine works out of the box. Need to plug into an existing ecosystem? Swap with one line:
-
-```typescript
-import { createStore } from "unistash";          // built-in engine
-import { createStore } from "unistash/zustand";   // zustand
-import { createStore } from "unistash/jotai";     // jotai
-import { createStore } from "unistash/redux";     // redux
-```
-
-Same API, same behavior. Adapter peer dependencies are installed separately only when needed.
-
-## Outside React
-
-```typescript
-useCounter.get();                         // read state
-useCounter.set({ count: 5 });             // write state
-const unsub = useCounter.on((s) => {});   // subscribe
-```
-
-## Scoped Stores
-
-For component-scoped state with isolated instances:
-
-```typescript
-import { createScopedStore } from "unistash";
-
-const { Provider, useStore } = createScopedStore({
-  state: { value: 0 },
-  actions: {
-    set: (state, v: number) => ({ value: v }),
-  },
-});
-
-// Each Provider gets its own state
-<Provider><Widget /></Provider>
-<Provider><Widget /></Provider>
-```
-
-## DevTools
-
-```typescript
-// Console logging — built-in, no extra imports
-const useCounter = createStore({
-  state: { count: 0 },
-  actions: { increment: (state) => ({ count: state.count + 1 }) },
-  devtools: true,
-});
-
-// Redux DevTools — optional import
-import { devtools } from "unistash/devtools";
-
-const useCounter = createStore({
-  state: { count: 0 },
-  actions: { increment: (state) => ({ count: state.count + 1 }) },
-  devtools: devtools({ name: "Counter" }),
-});
-```
-
-## CLI
-
-Scaffold a store into an existing React project:
-
-```bash
-npx create-unistash
-```
+- **Zero dependencies** — just React (a peer).
+- **Fully typed** — autocomplete on state, computed, and actions.
+- **Selectors** — fine-grained re-renders, opt-in.
+- **SSR-ready** — built on `useSyncExternalStore`, no hydration mismatch.
+- **No boilerplate** — no providers, no reducers.
 
 ## Development
 
