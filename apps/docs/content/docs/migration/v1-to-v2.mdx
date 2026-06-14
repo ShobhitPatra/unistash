@@ -1,0 +1,172 @@
+---
+title: Migrating from v1 to v2
+description: Move from the @unistash/* adapter packages to the single zero-dependency unistash package
+---
+
+# Migrating from v1 to v2
+
+Unistash **v2** is no longer an abstraction layer over Zustand, Jotai, or Redux. It is now a
+single, **zero-dependency** state library: [`unistash`](https://www.npmjs.com/package/unistash).
+The old `@unistash/zustand`, `@unistash/jotai`, `@unistash/redux`, and `@unistash/core` packages
+are **deprecated**.
+
+The good news: **your store config barely changes.** `createStore({ state, actions, computed })`
+keeps the exact same shape. The migration is mostly swapping the package and how you read values
+out of the hook.
+
+## TL;DR
+
+| | v1 (adapters) | v2 (`unistash`) |
+| --- | --- | --- |
+| Install | `@unistash/zustand` + `zustand` | just `unistash` |
+| Import | `from "@unistash/zustand"` | `from "unistash"` |
+| Read actions | `const { count, actions } = useStore()` → `actions.increment()` | `const { count, increment } = useStore()` → `increment()` |
+| Redux Provider | `<UnistashProvider store={...}>` required | not needed — delete it |
+| Config shape | `{ state, actions, computed }` | **unchanged** |
+
+## Step 1 — Swap the package
+
+Remove the adapter and its peer library, then install `unistash`:
+
+```bash
+# was: npm install @unistash/zustand zustand
+# (or @unistash/jotai jotai, or @unistash/redux @reduxjs/toolkit react-redux)
+npm uninstall @unistash/zustand zustand
+npm install unistash
+```
+
+`unistash` has **no runtime dependencies** — there is no Zustand/Jotai/Redux to install anymore.
+
+## Step 2 — Update your imports
+
+```diff
+- import { createStore } from "@unistash/zustand";
++ import { createStore } from "unistash";
+```
+
+Your `createStore({ ... })` call stays the same:
+
+```ts
+const useCounter = createStore({
+  state: { count: 0 },
+  actions: {
+    increment: (s) => ({ count: s.count + 1 }),
+    add: (s, n: number) => ({ count: s.count + n }),
+  },
+  computed: {
+    doubled: (s) => s.count * 2,
+  },
+});
+```
+
+## Step 3 — Read actions from the top level
+
+In v1, actions were nested under `actions`. In v2 they are spread alongside state and computed
+values:
+
+```diff
+- const { count, doubled, actions } = useCounter();
+- <button onClick={actions.increment}>+</button>
++ const { count, doubled, increment } = useCounter();
++ <button onClick={increment}>+</button>
+```
+
+> State, computed, and action names now share one namespace, so they must be **unique**. If two
+> of them use the same key, `createStore` throws at creation time.
+
+## Step 4 — (Redux only) remove the Provider
+
+The Redux adapter required wrapping your app in `<UnistashProvider>`. v2 needs no provider —
+delete it:
+
+```diff
+- import { createStore, UnistashProvider } from "@unistash/redux";
++ import { createStore } from "unistash";
+
+  function App() {
+-   return (
+-     <UnistashProvider store={useCounterStore._store}>
+-       <Counter />
+-     </UnistashProvider>
+-   );
++   return <Counter />;
+  }
+```
+
+The `_store` / `_slice` escape hatches are gone — v2 has no underlying Redux store.
+
+## What's new in v2
+
+- **Selectors** for fine-grained re-renders:
+
+  ```ts
+  const count = useCounter((s) => s.count); // re-renders only when count changes
+  ```
+
+- **Custom equality** via the exported `shallow` helper:
+
+  ```ts
+  import { shallow } from "unistash";
+  const { a, b } = useCounter((s) => ({ a: s.count, b: s.doubled }), shallow);
+  ```
+
+- **Consistent imperative API.** `getState`, `setState`, and `subscribe` now work the same on
+  every store (in v1 the Jotai and Redux adapters warned or no-op'd):
+
+  ```ts
+  useCounter.getState();
+  useCounter.setState({ count: 5 });
+  const unsubscribe = useCounter.subscribe((snapshot) => {
+    /* ... */
+  });
+  ```
+
+## Breaking changes to watch for
+
+- **`createAtom` was removed.** Use a single-field store instead:
+
+  ```ts
+  const useToken = createStore({
+    state: { value: null as string | null },
+    actions: { set: (_s, value: string | null) => ({ value }) },
+  });
+  ```
+
+- **Duplicate names throw.** A key used by more than one of `state` / `computed` / `actions`
+  now errors at `createStore` time (it was silently allowed in some v1 adapters).
+
+- **No more `<Provider>` for any engine**, and no `_store` / `_slice` internals.
+
+## Full before / after
+
+```tsx
+// v1
+import { createStore } from "@unistash/zustand";
+
+const useCounter = createStore({
+  state: { count: 0 },
+  actions: { increment: (s) => ({ count: s.count + 1 }) },
+  computed: { doubled: (s) => s.count * 2 },
+});
+
+function Counter() {
+  const { count, doubled, actions } = useCounter();
+  return <button onClick={actions.increment}>{count} ({doubled})</button>;
+}
+```
+
+```tsx
+// v2
+import { createStore } from "unistash";
+
+const useCounter = createStore({
+  state: { count: 0 },
+  actions: { increment: (s) => ({ count: s.count + 1 }) },
+  computed: { doubled: (s) => s.count * 2 },
+});
+
+function Counter() {
+  const { count, doubled, increment } = useCounter();
+  return <button onClick={increment}>{count} ({doubled})</button>;
+}
+```

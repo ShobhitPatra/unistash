@@ -4,7 +4,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "description": "Core types and interfaces for Unistash - Write once. Stash anywhere.",
+  "description": "[DEPRECATED] Use the `unistash` package instead. Core types for the v1 Unistash adapters.",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
